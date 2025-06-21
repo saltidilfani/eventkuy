@@ -9,18 +9,37 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showLoginForm()
+    /**
+     * Tampilkan form login.
+     */
+    public function showLoginForm(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
+        if (Auth::check()) {
+            return redirect('/')->with('info', 'Anda sudah login.');
+        }
         return view('auth.login');
     }
 
-    public function showRegistrationForm()
+    /**
+     * Tampilkan form registrasi.
+     */
+    public function showRegistrationForm(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
+        if (Auth::check()) {
+            return redirect('/')->with('info', 'Anda sudah login.');
+        }
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    /**
+     * Proses registrasi user baru.
+     */
+    public function register(Request $request): \Illuminate\Http\RedirectResponse
     {
+        if (Auth::check()) {
+            return redirect('/')->with('info', 'Anda sudah login.');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -39,8 +58,15 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Registrasi berhasil!');
     }
 
-    public function login(Request $request)
+    /**
+     * Proses login user.
+     */
+    public function login(Request $request): \Illuminate\Http\RedirectResponse
     {
+        if (Auth::check()) {
+            return redirect('/')->with('info', 'Anda sudah login.');
+        }
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -52,7 +78,7 @@ class AuthController extends Controller
             if (auth()->user()->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'));
             }
-            
+
             return redirect()->intended('/');
         }
 
@@ -61,12 +87,15 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function logout(Request $request)
+    /**
+     * Logout user.
+     */
+    public function logout(Request $request): \Illuminate\Http\RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect('/')->with('success', 'Anda berhasil logout!');
     }
-} 
+}
