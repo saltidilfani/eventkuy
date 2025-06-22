@@ -94,12 +94,14 @@
             box-shadow: 0 4px 15px rgba(255, 107, 8, 0.3);
         }
         
-        /* Gaya baru untuk kondisi tombol aktif/focus */
+        /* Memperkuat gaya untuk kondisi tombol aktif/focus */
         .btn-primary:focus,
-        .btn-primary:active {
-            background-color: #6c757d; /* Warna abu-abu */
-            border-color: #6c757d;
-            color: #fff;
+        .btn-primary:active,
+        .btn-primary.active,
+        .btn-primary:active:focus {
+            background-color: #6c757d !important; /* Warna abu-abu */
+            border-color: #6c757d !important;
+            color: #fff !important;
             box-shadow: none !important; /* Menghapus bayangan fokus (glow) */
         }
 
