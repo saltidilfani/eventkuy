@@ -24,6 +24,7 @@
             --text-light: #7f8c8d;
             --border-color: #ecf0f1;
             --font-family: 'Poppins', sans-serif;
+            --oren-pnp: #FF6B08;
         }
 
         body {
@@ -71,6 +72,47 @@
         .btn-outline-primary:hover {
             background-color: var(--primary-color);
             color: #fff;
+        }
+
+        /* Add missing custom classes */
+        .btn-oren {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-oren:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 8, 0.3);
+        }
+
+        .btn-outline-oren {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-oren:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .text-oren {
+            color: var(--primary-color) !important;
+        }
+
+        .text-dark-gray {
+            color: var(--text-dark);
         }
         
         .section-title {

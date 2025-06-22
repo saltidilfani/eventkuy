@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body p-4">
                     <div class="text-center mb-4">
-                        <i class="fas fa-edit fa-3x text-oren"></i>
+                        <i class="fas fa-edit fa-3x text-primary"></i>
                         <h3 class="mt-3">Daftar Event</h3>
                         <p class="text-muted">Isi data diri Anda untuk mengikuti event.</p>
                     </div>
