@@ -23,7 +23,7 @@ class EventController extends Controller
             $query->where('event_date', '>=', now());
         }])->get();
 
-        return view('pages.beranda', compact('events', 'categories'));
+        return view('pages.homepage', compact('events', 'categories'));
     }
 
     public function index(Request $request)

@@ -1,4 +1,4 @@
-@extends('layouts.publik')
+@extends('layouts.navbar')
 @section('title', 'Event Kategori: ' . $category->name)
 
 @section('content')

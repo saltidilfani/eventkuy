@@ -7,7 +7,7 @@
         <h2 class="text-dark mb-0">Tambah Event Baru</h2>
         <p class="text-muted">Isi form di bawah untuk menambahkan event baru.</p>
     </div>
-    <a href="{{ route('admin.events.daftar') }}" class="btn btn-outline-secondary">
+    <a href="{{ route('admin.events.index') }}" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left me-2"></i> Kembali
     </a>
 </div>
@@ -78,8 +78,16 @@
                     </div>
                 </div>
             </div>
-
-            <button type="submit" class="btn btn-primary" style="background:var(--primary-admin)">Simpan Event</button>
+            
+            <!-- Tombol Simpan di samping kanan -->
+            <div class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100" style="background:var(--primary-admin)">
+                        <i class="fas fa-save me-2"></i>Simpan Event
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
