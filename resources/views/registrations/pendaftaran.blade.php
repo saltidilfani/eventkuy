@@ -1,5 +1,5 @@
-@extends('layouts.publik')
-@section('title', 'Daftar Event: ' . $event->title)
+@extends('layouts.navbar')
+@section('title', 'Form Pendaftaran: ' . $event->title)
 
 @section('content')
 <div class="container my-5">
