@@ -12,11 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('salti_registrations', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained();
-        $table->foreignId('event_id')->constrained('salti_events');
-        $table->timestamp('registered_at')->useCurrent();
-        $table->timestamps();
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('event_id')->constrained('salti_events')->onDelete('cascade');
+            $table->string('phone')->nullable();
+            $table->string('institution')->nullable();
+            $table->text('notes')->nullable();
+            $table->string('status')->default('confirmed'); // e.g., confirmed, cancelled
+            $table->timestamp('registered_at')->useCurrent();
+            $table->timestamps();
         });
     }
 

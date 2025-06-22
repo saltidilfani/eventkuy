@@ -5,6 +5,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\RegistrationController;
+use App\Models\Event;
+use App\Models\User;
+use App\Models\Registration;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +70,24 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Halaman Dashboard Admin
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        $totalEvents = Event::count();
+        $totalUsers = User::where('role', 'user')->count();
+        $totalRegistrations = Registration::count();
+        $recentEvents = Event::with(['category', 'location'])->latest()->take(5)->get();
+        
+        // Data for Chart
+        $categoriesForChart = Category::has('events')->withCount('events')->orderBy('events_count', 'desc')->get();
+        $categoryLabels = $categoriesForChart->pluck('name');
+        $categoryData = $categoriesForChart->pluck('events_count');
+
+        return view('admin.dashboard', compact(
+            'totalEvents',
+            'totalUsers',
+            'totalRegistrations',
+            'recentEvents',
+            'categoryLabels',
+            'categoryData'
+        ));
     })->name('dashboard');
 
     // Manajemen CRUD (Create, Read, Update, Delete) untuk:
@@ -75,4 +97,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('events', EventController::class)->except(['show']);
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('locations', LocationController::class)->except(['show']);
+    Route::get('registrations', [RegistrationController::class, 'index'])->name('registrations.index');
 });

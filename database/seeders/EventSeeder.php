@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Event;
 use App\Models\Category;
 use App\Models\Location;
-use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class EventSeeder extends Seeder
 {
@@ -15,33 +15,20 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
-        // Kosongkan tabel event untuk menghindari duplikat
-        DB::table('salti_events')->delete();
+        $faker = Faker::create('id_ID');
+        $categories = Category::pluck('id');
+        $locations = Location::pluck('id');
 
-        // Ambil ID pertama dari Kategori dan Lokasi
-        // Kita tahu ini pasti ada karena seeder sebelumnya berhasil
-        $firstCategory = Category::first();
-        $firstLocation = Location::first();
-        $secondLocation = Location::skip(1)->first(); // Ambil lokasi kedua
-
-        // Jika ada kategori dan lokasi, buat event
-        if ($firstCategory && $firstLocation && $secondLocation) {
+        for ($i = 0; $i < 15; $i++) {
             Event::create([
-                'title' => 'Seminar Nasional Technopreneurship',
-                'description' => 'Seminar yang membahas tentang bagaimana menjadi pengusaha di era digital. Menghadirkan pembicara ahli di bidangnya.',
-                'event_date' => now()->addDays(10),
-                'event_time' => '09:00',
-                'category_id' => $firstCategory->id,
-                'location_id' => $firstLocation->id,
-            ]);
-
-            Event::create([
-                'title' => 'Workshop Desain Grafis dengan Canva',
-                'description' => 'Pelatihan intensif untuk mahasiswa yang ingin menguasai desain grafis untuk keperluan organisasi dan personal branding.',
-                'event_date' => now()->addDays(20),
-                'event_time' => '13:30',
-                'category_id' => $firstCategory->id, // Bisa pakai kategori yang sama
-                'location_id' => $secondLocation->id,
+                'title' => $faker->sentence(4),
+                'description' => $faker->paragraph(5),
+                'event_date' => $faker->dateTimeBetween('+1 week', '+3 months'),
+                'event_time' => $faker->time('H:i'),
+                'category_id' => $categories->random(),
+                'location_id' => $locations->random(),
+                'organizer' => $faker->company,
+                'max_participants' => $faker->numberBetween(50, 200)
             ]);
         }
     }

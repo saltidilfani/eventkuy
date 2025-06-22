@@ -12,10 +12,12 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description')->nullable();
             $table->date('event_date');
-            $table->time('event_time')->nullable(); // <-- TAMBAHKAN BARIS INI
+            $table->time('event_time')->nullable();
             $table->foreignId('category_id')->constrained('salti_categories')->onDelete('cascade');
             $table->foreignId('location_id')->constrained('salti_locations')->onDelete('cascade');
             $table->string('poster')->nullable();
+            $table->string('organizer')->nullable();
+            $table->integer('max_participants')->default(100);
             $table->timestamps();
         });
     }

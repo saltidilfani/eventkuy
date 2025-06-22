@@ -33,6 +33,6 @@ class Event extends Model
     {
         $registeredCount = $this->registrations()->count();
         $maxParticipants = $this->max_participants ?? 100; // Default 100 jika tidak ada
-        return max(0, $max_participants - $registeredCount);
+        return max(0, $maxParticipants - $registeredCount);
     }
 }

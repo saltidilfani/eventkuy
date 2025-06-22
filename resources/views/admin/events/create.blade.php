@@ -1,110 +1,86 @@
-@extends('layouts.public')
-@section('title', 'Konfirmasi Pendaftaran - ' . $event->title)
+@extends('admin.layout')
+@section('title', 'Tambah Event Baru')
 
 @section('content')
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
-                <div class="card-header bg-gradient text-white py-4" style="background-image: linear-gradient(to right, #FF8008, #FFC837);">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-check-circle fa-2x me-3"></i>
-                        <div>
-                            <h3 class="mb-0">Konfirmasi Pendaftaran</h3>
-                            <p class="mb-0 opacity-75">Review data sebelum finalisasi</p>
-                        </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="text-dark mb-0">Tambah Event Baru</h2>
+        <p class="text-muted">Isi form di bawah untuk menambahkan event baru.</p>
+    </div>
+    <a href="{{ route('admin.events.index') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i> Kembali
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form action="{{ route('admin.events.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Judul Event <span class="text-danger">*</span></label>
+                        <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" required>
+                         @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Deskripsi <span class="text-danger">*</span></label>
+                        <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" rows="8" required>{{ old('description') }}</textarea>
+                        @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
-                <div class="card-body p-4">
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        <strong>Penting:</strong> Pastikan semua informasi di bawah ini sudah benar sebelum mengkonfirmasi pendaftaran.
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Kategori <span class="text-danger">*</span></label>
+                        <select name="category_id" id="category_id" class="form-select @error('category_id') is-invalid @enderror" required>
+                            <option value="">Pilih Kategori...</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                         @error('category_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
-
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5 class="fw-bold mb-3 text-oren">Detail Event</h5>
-                            <div class="card bg-light">
-                                <div class="card-body">
-                                    <h6 class="fw-bold">{{ $event->title }}</h6>
-                                    <p class="text-muted mb-2">{{ $event->description }}</p>
-                                    <div class="mb-2">
-                                        <i class="fas fa-calendar text-oren me-2"></i>
-                                        <strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($event->event_date)->format('d F Y') }}
-                                    </div>
-                                    <div class="mb-2">
-                                        <i class="fas fa-clock text-oren me-2"></i>
-                                        <strong>Waktu:</strong> {{ $event->event_time }}
-                                    </div>
-                                    <div class="mb-2">
-                                        <i class="fas fa-map-marker-alt text-oren me-2"></i>
-                                        <strong>Lokasi:</strong> {{ $event->location->name }}
-                                    </div>
-                                    <div class="mb-0">
-                                        <i class="fas fa-users text-oren me-2"></i>
-                                        <strong>Kategori:</strong> {{ $event->category->name }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="fw-bold mb-3 text-oren">Data Pendaftar</h5>
-                            <div class="card bg-light">
-                                <div class="card-body">
-                                    <div class="mb-2">
-                                        <i class="fas fa-user text-oren me-2"></i>
-                                        <strong>Nama:</strong> {{ auth()->user()->name }}
-                                    </div>
-                                    <div class="mb-2">
-                                        <i class="fas fa-envelope text-oren me-2"></i>
-                                        <strong>Email:</strong> {{ auth()->user()->email }}
-                                    </div>
-                                    <div class="mb-2">
-                                        <i class="fas fa-phone text-oren me-2"></i>
-                                        <strong>Telepon:</strong> {{ $registrationData['phone'] }}
-                                    </div>
-                                    @if(!empty($registrationData['institution']))
-                                    <div class="mb-2">
-                                        <i class="fas fa-building text-oren me-2"></i>
-                                        <strong>Institusi:</strong> {{ $registrationData['institution'] }}
-                                    </div>
-                                    @endif
-                                    @if(!empty($registrationData['notes']))
-                                    <div class="mb-0">
-                                        <i class="fas fa-sticky-note text-oren me-2"></i>
-                                        <strong>Catatan:</strong> {{ $registrationData['notes'] }}
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="location_id" class="form-label">Lokasi <span class="text-danger">*</span></label>
+                        <select name="location_id" id="location_id" class="form-select @error('location_id') is-invalid @enderror" required>
+                            <option value="">Pilih Lokasi...</option>
+                            @foreach($locations as $location)
+                                <option value="{{ $location->id }}" {{ old('location_id') == $location->id ? 'selected' : '' }}>{{ $location->location_name }}</option>
+                            @endforeach
+                        </select>
+                         @error('location_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
-
-                    <form method="POST" action="{{ route('events.register.confirm.store', $event) }}">
-                        @csrf
-                        <input type="hidden" name="phone" value="{{ $registrationData['phone'] }}">
-                        <input type="hidden" name="institution" value="{{ $registrationData['institution'] ?? '' }}">
-                        <input type="hidden" name="notes" value="{{ $registrationData['notes'] ?? '' }}">
-                        
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" id="confirm" name="confirm" required>
-                            <label class="form-check-label" for="confirm">
-                                Saya menyatakan bahwa semua informasi di atas sudah benar dan saya siap mengikuti event ini
-                            </label>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success btn-lg" id="submitBtn" disabled>
-                                <i class="fas fa-check me-2"></i>Konfirmasi Pendaftaran
-                            </button>
-                            <a href="{{ route('events.register', $event) }}" class="btn btn-outline-secondary">
-                                <i class="fas fa-arrow-left me-2"></i>Kembali ke Form Pendaftaran
-                            </a>
-                        </div>
-                    </form>
+                    <div class="mb-3">
+                        <label for="event_date" class="form-label">Tanggal <span class="text-danger">*</span></label>
+                        <input type="date" name="event_date" id="event_date" class="form-control @error('event_date') is-invalid @enderror" value="{{ old('event_date') }}" required>
+                         @error('event_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="event_time" class="form-label">Waktu <span class="text-danger">*</span></label>
+                        <input type="time" name="event_time" id="event_time" class="form-control @error('event_time') is-invalid @enderror" value="{{ old('event_time') }}" required>
+                         @error('event_time')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="organizer" class="form-label">Penyelenggara</label>
+                        <input type="text" name="organizer" id="organizer" class="form-control @error('organizer') is-invalid @enderror" value="{{ old('organizer') }}">
+                         @error('organizer')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="max_participants" class="form-label">Kuota Peserta <span class="text-danger">*</span></label>
+                        <input type="number" name="max_participants" id="max_participants" class="form-control @error('max_participants') is-invalid @enderror" value="{{ old('max_participants', 100) }}" required>
+                         @error('max_participants')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="poster" class="form-label">Poster</label>
+                        <input type="file" name="poster" class="form-control @error('poster') is-invalid @enderror">
+                        @error('poster')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <button type="submit" class="btn btn-primary" style="background:var(--primary-admin)">Simpan Event</button>
+        </form>
     </div>
 </div>
 @endsection 

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Location;
 use App\Models\Registration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -25,10 +26,21 @@ class EventController extends Controller
         return view('welcome', compact('events', 'categories'));
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::with(['category', 'location', 'registrations'])->latest()->paginate(10);
-        return view('admin.events.index', compact('events'));
+        $query = Event::with(['category', 'location', 'registrations'])->latest();
+
+        // Fitur Pencarian
+        if ($request->has('search') && $request->search != '') {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $events = $query->paginate(10)->withQueryString(); // withQueryString() agar pencarian tidak hilang saat pindah halaman
+
+        return view('admin.events.index', [
+            'events' => $events,
+            'search' => $request->search ?? ''
+        ]);
     }
 
     public function show($id)
@@ -58,9 +70,15 @@ class EventController extends Controller
 
     public function register(Request $request, $id)
     {
-        $request->validate(['name' => 'required', 'email' => 'required|email', 'phone' => 'nullable']);
-        $registrationData = $request->only(['name', 'email', 'phone']);
+        $request->validate([
+            'phone' => 'required|string|max:20',
+            'institution' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
+        ]);
+        
+        $registrationData = $request->only(['phone', 'institution', 'notes']);
         $request->session()->put('registration_data', $registrationData);
+        
         return redirect()->route('events.register.confirm', $id);
     }
 
@@ -78,9 +96,18 @@ class EventController extends Controller
     {
         $registrationData = session('registration_data');
         if (!$registrationData) {
-            return redirect()->route('events.register', $id)->with('error', 'Data pendaftaran tidak ditemukan.');
+            return redirect()->route('events.register', $id)->with('error', 'Sesi pendaftaran berakhir, silakan coba lagi.');
         }
-        Registration::create(['user_id' => auth()->id(), 'event_id' => $id, 'phone' => $registrationData['phone'] ?? null, 'status' => 'confirmed']);
+
+        Registration::create([
+            'user_id' => auth()->id(),
+            'event_id' => $id,
+            'phone' => $registrationData['phone'],
+            'institution' => $registrationData['institution'],
+            'notes' => $registrationData['notes'],
+            'status' => 'confirmed'
+        ]);
+
         $request->session()->forget('registration_data');
         return redirect()->route('events.detail', $id)->with('success', 'Selamat! Anda berhasil terdaftar.');
     }
@@ -95,8 +122,23 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['title' => 'required', 'event_date' => 'required|date', 'event_time' => 'required', 'category_id' => 'required', 'location_id' => 'required']);
-        Event::create($request->all());
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'event_date' => 'required|date',
+            'event_time' => 'required',
+            'category_id' => 'required|exists:salti_categories,id',
+            'location_id' => 'required|exists:salti_locations,id',
+            'organizer' => 'nullable|string|max:255',
+            'max_participants' => 'required|integer|min:1',
+            'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('poster')) {
+            $validatedData['poster'] = $request->file('poster')->store('posters', 'public');
+        }
+
+        Event::create($validatedData);
         return redirect()->route('admin.events.index')->with('success', 'Event berhasil ditambahkan!');
     }
 
@@ -109,8 +151,27 @@ class EventController extends Controller
 
     public function update(Request $request, Event $event)
     {
-        $request->validate(['title' => 'required', 'event_date' => 'required|date', 'event_time' => 'required', 'category_id' => 'required', 'location_id' => 'required']);
-        $event->update($request->all());
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'event_date' => 'required|date',
+            'event_time' => 'required',
+            'category_id' => 'required|exists:salti_categories,id',
+            'location_id' => 'required|exists:salti_locations,id',
+            'organizer' => 'nullable|string|max:255',
+            'max_participants' => 'required|integer|min:1',
+            'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('poster')) {
+            // Hapus poster lama jika ada
+            if ($event->poster) {
+                Storage::disk('public')->delete($event->poster);
+            }
+            $validatedData['poster'] = $request->file('poster')->store('posters', 'public');
+        }
+        
+        $event->update($validatedData);
         return redirect()->route('admin.events.index')->with('success', 'Event berhasil diupdate!');
     }
 

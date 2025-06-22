@@ -17,17 +17,19 @@
     <!-- Custom CSS -->
     <style>
         :root {
-            --bs-primary-rgb: 255, 107, 8;
-            --bs-primary: #FF6B08;
-            --bs-primary-dark: #E66007;
-            --bs-light-gray: #f8f9fa;
-            --bs-dark-gray: #343a40;
-            --bs-font-sans-serif: 'Poppins', sans-serif;
+            --primary-color: #FF6B08;
+            --primary-hover: #E66007;
+            --secondary-color: #f4f7f6;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-color: #ecf0f1;
+            --font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background-color: var(--bs-light-gray);
-            font-family: var(--bs-font-sans-serif);
+            font-family: var(--font-family);
+            background-color: #FFFFFF;
+            color: var(--text-dark);
         }
 
         .navbar {
@@ -38,74 +40,66 @@
 
         .navbar-brand {
             font-weight: 700;
-            color: var(--bs-primary) !important;
+            color: var(--primary-color) !important;
         }
 
-        .btn-oren {
-            background-color: var(--bs-primary);
-            border-color: var(--bs-primary);
-            color: #fff;
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
             font-weight: 500;
             padding: 0.75rem 1.5rem;
             border-radius: 50px;
             transition: all 0.3s ease;
         }
 
-        .btn-oren:hover {
-            background-color: var(--bs-primary-dark);
-            border-color: var(--bs-primary-dark);
-            color: #fff;
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(255, 107, 8, 0.3);
         }
         
-        .btn-outline-oren {
-            border-color: var(--bs-primary);
-            color: var(--bs-primary);
+        .btn-outline-primary {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
             font-weight: 500;
             padding: 0.75rem 1.5rem;
             border-radius: 50px;
             transition: all 0.3s ease;
         }
 
-        .btn-outline-oren:hover {
-            background-color: var(--bs-primary);
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
             color: #fff;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        
+        .section-subtitle {
+            color: var(--text-light);
         }
 
         .card {
-            border: none;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 5px 25px rgba(44, 62, 80, 0.08);
             transition: all 0.3s ease;
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(44, 62, 80, 0.12);
         }
-
-        .category-card {
-            background-color: #fff;
-            border-radius: 15px;
-        }
-        .category-card .icon-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: rgba(255, 107, 8, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bs-primary);
-            transition: all 0.3s ease;
-        }
-        .category-card:hover .icon-circle {
-            background-color: var(--bs-primary);
-            color: #fff;
+        
+        .bg-light-custom {
+             background-color: var(--secondary-color);
         }
 
         footer {
-            background-color: var(--bs-dark-gray);
+            background-color: var(--text-dark);
+            color: #fff;
         }
     </style>
 </head>
@@ -121,7 +115,7 @@
                             <a href="{{ route('login') }}" class="nav-link">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('register') }}" class="btn btn-oren ms-2">Register</a>
+                            <a href="{{ route('register') }}" class="btn btn-primary ms-2">Register</a>
                         </li>
                     @else
                         <li class="nav-item dropdown">
@@ -129,7 +123,7 @@
                                 <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                @if(Auth::user()->role === 'admin')
+                                @if(Auth::user()->isAdmin())
                                     <li>
                                         <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                                             <i class="fas fa-tachometer-alt fa-fw me-2"></i>Admin Dashboard
@@ -138,7 +132,8 @@
                                     <li><hr class="dropdown-divider"></li>
                                 @endif
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                    <form action="{{ route('logout') }}" method="POST" style="display: none;" id="logout-form">@csrf</form>
+                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout
                                     </a>
                                 </li>
