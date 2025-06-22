@@ -12,21 +12,14 @@
     }
     .info-list .list-group-item {
         background-color: transparent;
-        border: none;
+        border-color: rgba(0,0,0,0.05);
         padding-left: 0;
         padding-right: 0;
     }
-    .card-img-top {
-        max-height: 350px;
+    .card-img-top-detail {
+        max-height: 450px;
         object-fit: cover;
-    }
-    .share-btn {
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        border-radius: 50%;
-        padding: 0;
+        border-radius: .5rem .5rem 0 0;
     }
 </style>
 @endpush
@@ -43,29 +36,26 @@
             </ol>
         </nav>
 
-        <div class="row g-4">
-            <!-- Main Content Card: Diubah menjadi col-lg-7 -->
-            <div class="col-lg-7">
-                <div class="card shadow-sm border-0 h-100">
-                    <img src="{{ $event->poster ? asset('storage/' . $event->poster) : 'https://via.placeholder.com/800x350?text=Poster+Event' }}" class="card-img-top" alt="{{ $event->title }}">
-                    <div class="card-body p-4 p-md-5">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary-emphasis fw-semibold mb-2">{{ $event->category->name }}</span>
-                        <h2 class="fw-bold">{{ $event->title }}</h2>
-
-                    <hr class="my-4">
-
-                        <h4 class="fw-bold mb-3">Deskripsi Event</h4>
+        <!-- Card Tunggal Untuk Semua Konten -->
+        <div class="card shadow-lg border-0 mx-auto" style="max-width: 800px;">
+            <!-- Poster Event -->
+            <img src="{{ $event->poster ? asset('storage/' . $event->poster) : 'https://via.placeholder.com/1200x450?text=Poster+Event' }}" class="card-img-top-detail" alt="{{ $event->title }}">
+            
+            <div class="card-body p-4 p-md-5">
+                <div class="row g-5">
+                    <!-- Kolom Kiri: Deskripsi Event -->
+                    <div class="col-lg-7">
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary-emphasis fw-semibold mb-3">{{ $event->category->name }}</span>
+                        <h1 class="fw-bolder mb-3">{{ $event->title }}</h1>
+                        <hr>
+                        <h4 class="fw-bold mt-4 mb-3">Deskripsi Event</h4>
                         <p class="text-secondary" style="white-space: pre-wrap; line-height: 1.8;">{{ $event->description }}</p>
                     </div>
-                </div>
-                        </div>
 
-            <!-- Sidebar: Tetap col-lg-4 -->
-            <div class="col-lg-4">
-                <div class="sticky-top" style="top: 2rem;">
-                    <!-- Registration Card -->
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-body p-4 text-center">
+                    <!-- Kolom Kanan: Informasi & Aksi -->
+                    <div class="col-lg-5">
+                        <!-- Tombol Pendaftaran -->
+                        <div class="card shadow-sm border-light bg-light text-center p-4 mb-4">
                             @if($event->available_slots > 0)
                                 @auth
                                     @if(auth()->user()->registrations()->where('event_id', $event->id)->exists())
@@ -79,43 +69,35 @@
                             @else
                                 <button class="btn btn-secondary btn-lg w-100" disabled>Pendaftaran Ditutup</button>
                             @endif
-                            <div class="mt-3">Sisa Kuota: <span class="fw-bold fs-5">{{ $event->available_slots }}</span></div>
+                            <div class="mt-3 text-dark">Sisa Kuota: <span class="fw-bold fs-5">{{ $event->available_slots }}</span></div>
                         </div>
-                    </div>
 
-                    <!-- Details Card -->
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-3">Detail Informasi</h5>
-                            <ul class="list-group info-list">
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="fas fa-calendar-alt fa-fw me-3 text-primary mt-1"></i>
-                                    <div><strong>Tanggal:</strong><br>{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('l, d F Y') }}</div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="fas fa-clock fa-fw me-3 text-primary mt-1"></i>
-                                    <div><strong>Waktu:</strong><br>{{ \Carbon\Carbon::parse($event->event_time)->format('H:i') }} WIB</div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="fas fa-map-marker-alt fa-fw me-3 text-primary mt-1"></i>
-                                    <div><strong>Lokasi:</strong><br>{{ $event->location->location_name }}</div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="fas fa-user-friends fa-fw me-3 text-primary mt-1"></i>
-                                    <div><strong>Penyelenggara:</strong><br>{{ $event->organizer ?? 'Panitia' }}</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        <!-- Detail Informasi -->
+                        <h5 class="fw-bold mb-3">Detail Informasi</h5>
+                        <ul class="list-group list-group-flush info-list">
+                            <li class="list-group-item d-flex align-items-start pb-3">
+                                <i class="fas fa-calendar-alt fa-fw me-3 text-primary mt-1 fs-5"></i>
+                                <div><strong>Tanggal:</strong><br><span class="text-secondary">{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('l, d F Y') }}</span></div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start py-3">
+                                <i class="fas fa-clock fa-fw me-3 text-primary mt-1 fs-5"></i>
+                                <div><strong>Waktu:</strong><br><span class="text-secondary">{{ \Carbon\Carbon::parse($event->event_time)->format('H:i') }} WIB</span></div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start py-3">
+                                <i class="fas fa-map-marker-alt fa-fw me-3 text-primary mt-1 fs-5"></i>
+                                <div><strong>Lokasi:</strong><br><span class="text-secondary">{{ $event->location->location_name }}</span></div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start pt-3">
+                                <i class="fas fa-user-friends fa-fw me-3 text-primary mt-1 fs-5"></i>
+                                <div><strong>Penyelenggara:</strong><br><span class="text-secondary">{{ $event->organizer ?? 'Panitia' }}</span></div>
+                            </li>
+                        </ul>
 
-                     <!-- Back to Home Button Card -->
-                    <div class="card shadow-sm border-0">
-                         <div class="card-body">
-                             <div class="d-grid">
-                                <a href="{{ route('home') }}" class="btn btn-outline-secondary">
-                                    <i class="fas fa-arrow-left me-2"></i> Kembali ke Halaman Utama
-                                </a>
-                            </div>
+                        <!-- Tombol Kembali -->
+                        <div class="d-grid mt-5">
+                            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i> Kembali
+                            </a>
                         </div>
                     </div>
                 </div>

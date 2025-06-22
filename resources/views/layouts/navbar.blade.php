@@ -122,6 +122,43 @@
             background-color: var(--text-dark);
             color: #fff;
         }
+
+        /* Gaya baru untuk ikon kategori bulat */
+        .category-icon-wrapper {
+            width: 90px;
+            height: 90px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            transition: all 0.3s ease-out;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .category-icon-wrapper i {
+            color: var(--primary-color);
+            transition: color 0.3s ease-out;
+        }
+
+        .category-link:hover .category-icon-wrapper {
+            background-color: var(--primary-color);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(255, 107, 8, 0.25);
+        }
+
+        .category-link:hover .category-icon-wrapper i {
+            color: #ffffff;
+        }
+
+        .category-link h6 {
+            transition: color 0.3s ease-out;
+        }
+
+        .category-link:hover h6 {
+            color: var(--primary-color) !important;
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">

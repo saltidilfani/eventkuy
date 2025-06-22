@@ -33,14 +33,12 @@
                         case 'olahraga': $icon = 'fa-futbol'; break;
                     }
                 @endphp
-            <div class="col-lg-2 col-md-4 col-6">
-                <a href="{{ route('categories.show', $category->id) }}" class="text-decoration-none">
-                    <div class="card text-center p-3 h-100 border-0 shadow-sm">
-                        <div class="card-body d-flex flex-column justify-content-center">
-                            <i class="fas {{ $icon }} fa-3x text-primary mb-3"></i>
-                            <h6 class="fw-bold text-dark">{{ $category->name }}</h6>
-                        </div>
+            <div class="col-lg-2 col-md-4 col-6 text-center">
+                <a href="{{ route('categories.show', $category->id) }}" class="text-decoration-none category-link">
+                    <div class="category-icon-wrapper">
+                        <i class="fas {{ $icon }} fa-2x"></i>
                     </div>
+                    <h6 class="fw-bold text-dark mt-2">{{ $category->name }}</h6>
                 </a>
             </div>
             @empty
