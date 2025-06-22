@@ -11,7 +11,46 @@
     </div>
 </div>
 
-<!-- Events Section -->
+<!-- Categories Section (dipindahkan ke atas) -->
+<section id="categories" class="py-5 bg-light-custom">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="section-title">Jelajahi Berdasarkan Kategori</h2>
+                 <p class="section-subtitle">Temukan event yang paling sesuai dengan minatmu.</p>
+            </div>
+        </div>
+        <div class="row g-4 justify-content-center">
+            @forelse($categories->where('events_count', '>', 0) as $category)
+                @php
+                    $icon = 'fa-tag'; // Default icon
+                    switch (strtolower($category->name)) {
+                        case 'seminar': $icon = 'fa-chalkboard-teacher'; break;
+                        case 'workshop': $icon = 'fa-cogs'; break;
+                        case 'kompetisi': $icon = 'fa-trophy'; break;
+                        case 'pameran seni': $icon = 'fa-palette'; break;
+                        case 'festival kuliner': $icon = 'fa-utensils'; break;
+                        case 'olahraga': $icon = 'fa-futbol'; break;
+                    }
+                @endphp
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="{{ route('categories.show', $category->id) }}" class="text-decoration-none">
+                    <div class="card text-center p-3 h-100 border-0 shadow-sm">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <i class="fas {{ $icon }} fa-3x text-primary mb-3"></i>
+                            <h6 class="fw-bold text-dark">{{ $category->name }}</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @empty
+            <p class="text-center text-muted">Belum ada kategori event yang tersedia.</p>
+            @endforelse
+        </div>
+    </div>
+</section>
+
+<!-- Events Section (sekarang di bawah Kategori) -->
 <section id="events" class="py-5">
     <div class="container">
         <div class="row mb-5">
@@ -53,45 +92,6 @@
                 <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
                 <h4 class="text-muted">Belum ada event yang akan datang.</h4>
             </div>
-            @endforelse
-        </div>
-    </div>
-</section>
-
-<!-- Categories Section -->
-<section id="categories" class="py-5 bg-light-custom">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-12 text-center">
-                <h2 class="section-title">Jelajahi Berdasarkan Kategori</h2>
-                 <p class="section-subtitle">Temukan event yang paling sesuai dengan minatmu.</p>
-            </div>
-        </div>
-        <div class="row g-4 justify-content-center">
-            @forelse($categories->where('events_count', '>', 0) as $category)
-                @php
-                    $icon = 'fa-tag'; // Default icon
-                    switch (strtolower($category->name)) {
-                        case 'seminar': $icon = 'fa-chalkboard-teacher'; break;
-                        case 'workshop': $icon = 'fa-cogs'; break;
-                        case 'kompetisi': $icon = 'fa-trophy'; break;
-                        case 'pameran seni': $icon = 'fa-palette'; break;
-                        case 'festival kuliner': $icon = 'fa-utensils'; break;
-                        case 'olahraga': $icon = 'fa-futbol'; break;
-                    }
-                @endphp
-            <div class="col-lg-2 col-md-4 col-6">
-                <a href="{{ route('categories.show', $category->id) }}" class="text-decoration-none">
-                    <div class="card text-center p-3 h-100 border-0 shadow-sm">
-                        <div class="card-body d-flex flex-column justify-content-center">
-                            <i class="fas {{ $icon }} fa-3x text-primary mb-3"></i>
-                            <h6 class="fw-bold text-dark">{{ $category->name }}</h6>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            @empty
-            <p class="text-center text-muted">Belum ada kategori event yang tersedia.</p>
             @endforelse
         </div>
     </div>

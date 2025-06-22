@@ -1,5 +1,5 @@
-@extends('layouts.publik')
-@section('title', 'Buat Akun Baru')
+@extends('layouts.navbar')
+@section('title', 'Register Akun Baru')
 
 @section('content')
 <div class="container my-5">
