@@ -14,14 +14,12 @@ class CategorySeeder extends Seeder
             ['name' => 'Workshop'],
             ['name' => 'Kompetisi'],
             ['name' => 'Pameran Seni'],
-            ['name' => 'Festival Kuliner'],
             ['name' => 'Olahraga'],
             ['name' => 'Webinar Online'],
-            ['name' => 'Job Fair'],
         ];
 
         foreach ($categories as $category) {
-            Category::firstOrCreate($category);
+            Category::firstOrCreate(['name' => $category['name']]);
         }
     }
 }

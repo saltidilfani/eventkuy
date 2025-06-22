@@ -1,12 +1,12 @@
-@extends('layouts.public')
+@extends('layouts.publik')
 @section('title', 'Event Kampus PNP')
 
 @section('content')
 <!-- Hero Section -->
-<div class="container-fluid bg-light-custom py-5">
+<div class="bg-light-custom py-5">
     <div class="container text-center py-5">
         <h1 class="display-4 fw-bold text-dark">Temukan Event Terbaik Kampus</h1>
-        <p class="lead text-light col-lg-8 mx-auto">Jelajahi berbagai seminar, workshop, dan kompetisi untuk menambah wawasan dan pengalamanmu di Politeknik Negeri Padang.</p>
+        <p class="lead text-secondary col-lg-8 mx-auto">Jelajahi berbagai seminar, workshop, dan kompetisi untuk menambah wawasan dan pengalamanmu di Politeknik Negeri Padang.</p>
         <a href="#events" class="btn btn-primary btn-lg mt-3">Lihat Event Terbaru</a>
     </div>
 </div>
@@ -34,11 +34,11 @@
                     @endif
                     <div class="card-body p-4 d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge rounded-pill text-bg-primary bg-opacity-10 text-primary-emphasis fw-semibold">{{ $event->category->name }}</span>
+                            <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary-emphasis fw-semibold">{{ $event->category->name }}</span>
                             <small class="text-muted fw-bold">{{ $event->event_date->format('d M Y') }}</small>
                         </div>
                         <h5 class="card-title fw-bold my-2 flex-grow-1">{{ $event->title }}</h5>
-                        <div class="d-flex align-items-center text-light small mb-3">
+                        <div class="d-flex align-items-center text-secondary small mb-3">
                             <i class="fas fa-map-marker-alt text-primary me-2"></i>
                             <span>{{ $event->location->location_name }}</span>
                         </div>
@@ -96,4 +96,4 @@
         </div>
     </div>
 </section>
-@endsection
+@endsection 

@@ -23,7 +23,7 @@ class EventController extends Controller
             $query->where('event_date', '>=', now());
         }])->get();
 
-        return view('welcome', compact('events', 'categories'));
+        return view('pages.beranda', compact('events', 'categories'));
     }
 
     public function index(Request $request)
@@ -35,9 +35,9 @@ class EventController extends Controller
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        $events = $query->paginate(10)->withQueryString(); // withQueryString() agar pencarian tidak hilang saat pindah halaman
+        $events = $query->paginate(10)->withQueryString();
 
-        return view('admin.events.index', [
+        return view('admin.events.daftar', [
             'events' => $events,
             'search' => $request->search ?? ''
         ]);
@@ -56,7 +56,25 @@ class EventController extends Controller
             ->where('event_date', '>=', now())
             ->orderBy('event_date', 'asc')
             ->paginate(12);
-        return view('categories.lihat_perkategori', compact('events', 'category'));
+        return view('categories.event-perkategori', compact('events', 'category'));
+    }
+
+    public function allEvents(Request $request)
+    {
+        $query = Event::with(['category', 'location'])
+            ->where('event_date', '>=', now())
+            ->orderBy('event_date', 'asc');
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $events = $query->paginate(12)->withQueryString();
+
+        return view('events.semua_event', [
+            'events' => $events,
+            'search' => $request->search ?? ''
+        ]);
     }
 
     public function showRegistrationForm($id)
@@ -65,7 +83,7 @@ class EventController extends Controller
         if (Registration::where('user_id', auth()->id())->where('event_id', $id)->exists()) {
             return redirect()->route('events.detail', $id)->with('error', 'Anda sudah terdaftar di event ini!');
         }
-        return view('events.form_pendaftaran', compact('event'));
+        return view('registrations.pendaftaran', compact('event'));
     }
 
     public function register(Request $request, $id)
@@ -89,7 +107,7 @@ class EventController extends Controller
         if (!$registrationData) {
             return redirect()->route('events.register', $id)->with('error', 'Data pendaftaran tidak ditemukan.');
         }
-        return view('events.konfirmasi', compact('event', 'registrationData'));
+        return view('registrations.konfirmasi', compact('event', 'registrationData'));
     }
 
     public function confirmRegistration(Request $request, $id)
@@ -117,7 +135,7 @@ class EventController extends Controller
     {
         $categories = Category::all();
         $locations = Location::all();
-        return view('admin.events.create', compact('categories', 'locations'));
+        return view('admin.events.tambah', compact('categories', 'locations'));
     }
 
     public function store(Request $request)
@@ -139,14 +157,14 @@ class EventController extends Controller
         }
 
         Event::create($validatedData);
-        return redirect()->route('admin.events.index')->with('success', 'Event berhasil ditambahkan!');
+        return redirect()->route('admin.events.daftar')->with('success', 'Event berhasil ditambahkan!');
     }
 
     public function edit(Event $event)
     {
         $categories = Category::all();
         $locations = Location::all();
-        return view('admin.events.edit', compact('event', 'categories', 'locations'));
+        return view('admin.events.ubah', compact('event', 'categories', 'locations'));
     }
 
     public function update(Request $request, Event $event)
@@ -164,20 +182,22 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('poster')) {
-            // Hapus poster lama jika ada
             if ($event->poster) {
                 Storage::disk('public')->delete($event->poster);
             }
             $validatedData['poster'] = $request->file('poster')->store('posters', 'public');
         }
-        
+
         $event->update($validatedData);
-        return redirect()->route('admin.events.index')->with('success', 'Event berhasil diupdate!');
+        return redirect()->route('admin.events.daftar')->with('success', 'Event berhasil diupdate!');
     }
 
     public function destroy(Event $event)
     {
+        if ($event->poster) {
+            Storage::disk('public')->delete($event->poster);
+        }
         $event->delete();
-        return redirect()->route('admin.events.index')->with('success', 'Event berhasil dihapus!');
+        return redirect()->route('admin.events.daftar')->with('success', 'Event berhasil dihapus!');
     }
 }

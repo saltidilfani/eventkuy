@@ -114,7 +114,7 @@
                     <div class="text-center text-muted p-4">Belum ada event terbaru.</div>
                 @endforelse
                  <div class="text-center mt-3">
-                    <a href="{{ route('admin.events.index') }}" class="small">Lihat Semua Event &rarr;</a>
+                    <a href="{{ route('admin.events.daftar') }}" class="small">Lihat Semua Event &rarr;</a>
                 </div>
             </div>
         </div>

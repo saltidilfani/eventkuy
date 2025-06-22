@@ -35,6 +35,9 @@ Route::get('/events/{id}', [EventController::class, 'show'])->name('events.detai
 // Halaman untuk melihat semua event dalam satu kategori
 Route::get('/categories/{id}', [EventController::class, 'showByCategory'])->name('categories.show');
 
+// Halaman untuk melihat semua event
+Route::get('/events', [EventController::class, 'allEvents'])->name('events.all');
+
 
 // ===================================================================
 // RUTE AUTENTIKASI (Login & Register)

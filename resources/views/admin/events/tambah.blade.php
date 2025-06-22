@@ -7,7 +7,7 @@
         <h2 class="text-dark mb-0">Tambah Event Baru</h2>
         <p class="text-muted">Isi form di bawah untuk menambahkan event baru.</p>
     </div>
-    <a href="{{ route('admin.events.index') }}" class="btn btn-outline-secondary">
+    <a href="{{ route('admin.events.daftar') }}" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left me-2"></i> Kembali
     </a>
 </div>

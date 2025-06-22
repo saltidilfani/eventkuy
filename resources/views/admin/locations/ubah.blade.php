@@ -7,7 +7,7 @@
         <h2 class="text-dark mb-0">Edit Lokasi</h2>
         <p class="text-muted">Perbarui data lokasi di bawah ini.</p>
     </div>
-    <a href="{{ route('admin.locations.index') }}" class="btn btn-outline-secondary">
+    <a href="{{ route('admin.locations.daftar') }}" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left me-2"></i> Kembali
     </a>
 </div>

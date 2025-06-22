@@ -1,4 +1,4 @@
-@extends('layouts.public')
+@extends('layouts.publik')
 @section('title', 'Login Akun')
 
 @section('content')

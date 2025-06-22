@@ -51,14 +51,14 @@
                     <div class="card-body p-4 p-md-5">
                         <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary-emphasis fw-semibold mb-2">{{ $event->category->name }}</span>
                         <h2 class="fw-bold">{{ $event->title }}</h2>
-
-                    <hr class="my-4">
-
+                        
+                        <hr class="my-4">
+                        
                         <h4 class="fw-bold mb-3">Deskripsi Event</h4>
                         <p class="text-secondary" style="white-space: pre-wrap; line-height: 1.8;">{{ $event->description }}</p>
                     </div>
                 </div>
-                        </div>
+            </div>
 
             <!-- Sidebar: Tetap col-lg-4 -->
             <div class="col-lg-4">
@@ -116,7 +116,7 @@
                                     <i class="fas fa-arrow-left me-2"></i> Kembali ke Halaman Utama
                                 </a>
                             </div>
-                        </div>
+                         </div>
                     </div>
                 </div>
             </div>

@@ -109,14 +109,36 @@
             <a class="navbar-brand fs-4" href="/"><i class="fas fa-rocket me-2"></i>Event PNP</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNav">
+                
+                <!-- Events Dropdown -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownEvents" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Events
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownEvents">
+                            @if($navbarCategories->isNotEmpty())
+                                @foreach($navbarCategories as $category)
+                                    <li><a class="dropdown-item" href="{{ route('categories.show', $category->id) }}">{{ $category->name }}</a></li>
+                                @endforeach
+                                <li><hr class="dropdown-divider"></li>
+                            @endif
+                            <li><a class="dropdown-item" href="{{ route('events.all') }}">Lihat Semua Event</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Auth Links -->
                 <ul class="navbar-nav ms-auto align-items-center">
                     @guest
-                        <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('register') }}" class="btn btn-primary ms-2">Register</a>
-                        </li>
+                        @if (!request()->routeIs('events.detail'))
+                            <li class="nav-item">
+                                <a href="{{ route('login') }}" class="nav-link">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('register') }}" class="btn btn-primary ms-2">Register</a>
+                            </li>
+                        @endif
                     @else
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

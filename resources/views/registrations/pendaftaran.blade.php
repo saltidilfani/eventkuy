@@ -1,4 +1,4 @@
-@extends('layouts.public')
+@extends('layouts.publik')
 @section('title', 'Daftar Event: ' . $event->title)
 
 @section('content')
