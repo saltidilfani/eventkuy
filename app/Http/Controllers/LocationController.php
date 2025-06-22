@@ -26,7 +26,7 @@ class LocationController extends Controller
         ]);
         
         Location::create($validated);
-        return redirect()->route('admin.locations.daftar')->with('success', 'Lokasi berhasil ditambahkan!');
+        return redirect()->route('admin.locations.index')->with('success', 'Lokasi berhasil ditambahkan!');
     }
 
     public function edit(Location $location)
@@ -42,12 +42,12 @@ class LocationController extends Controller
         ]);
         
         $location->update($validated);
-        return redirect()->route('admin.locations.daftar')->with('success', 'Lokasi berhasil diupdate!');
+        return redirect()->route('admin.locations.index')->with('success', 'Lokasi berhasil diupdate!');
     }
 
     public function destroy(Location $location)
     {
         $location->delete();
-        return redirect()->route('admin.locations.daftar')->with('success', 'Lokasi berhasil dihapus!');
+        return redirect()->route('admin.locations.index')->with('success', 'Lokasi berhasil dihapus!');
     }
 }

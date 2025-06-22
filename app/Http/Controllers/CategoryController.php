@@ -27,7 +27,7 @@ class CategoryController extends Controller
         // Penyempurnaan: Langsung menggunakan $request->all() jika field di form sama dengan di database
         Category::create($request->all());
 
-        return redirect()->route('admin.categories.daftar')->with('success', 'Kategori berhasil ditambahkan!');
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan!');
     }
 
     // Penyempurnaan: Menggunakan Route Model Binding (Category $category)
@@ -46,13 +46,13 @@ class CategoryController extends Controller
         // Penyempurnaan: Langsung menggunakan $request->all()
         $category->update($request->all());
 
-        return redirect()->route('admin.categories.daftar')->with('success', 'Kategori berhasil diupdate!');
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate!');
     }
 
     // Penyempurnaan: Menggunakan Route Model Binding (Category $category)
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('admin.categories.daftar')->with('success', 'Kategori berhasil dihapus!');
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus!');
     }
 }

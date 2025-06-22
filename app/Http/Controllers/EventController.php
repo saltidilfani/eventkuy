@@ -157,7 +157,7 @@ class EventController extends Controller
         }
 
         Event::create($validatedData);
-        return redirect()->route('admin.events.daftar')->with('success', 'Event berhasil ditambahkan!');
+        return redirect()->route('admin.events.index')->with('success', 'Event berhasil ditambahkan!');
     }
 
     public function edit(Event $event)
@@ -189,7 +189,7 @@ class EventController extends Controller
         }
 
         $event->update($validatedData);
-        return redirect()->route('admin.events.daftar')->with('success', 'Event berhasil diupdate!');
+        return redirect()->route('admin.events.index')->with('success', 'Event berhasil diupdate!');
     }
 
     public function destroy(Event $event)
@@ -198,6 +198,6 @@ class EventController extends Controller
             Storage::disk('public')->delete($event->poster);
         }
         $event->delete();
-        return redirect()->route('admin.events.daftar')->with('success', 'Event berhasil dihapus!');
+        return redirect()->route('admin.events.index')->with('success', 'Event berhasil dihapus!');
     }
 }
