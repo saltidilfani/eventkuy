@@ -79,7 +79,7 @@
                             <i class="fas fa-map-marker-alt text-primary me-2"></i>
                             <span>{{ $event->location->location_name }}</span>
                         </div>
-                        <a href="{{ route('events.detail', $event->id) }}" class="btn btn-outline-primary mt-auto">
+                        <a href="{{ route('events.detail', $event->id) }}" class="btn btn-primary mt-auto">
                             Lihat Detail
                         </a>
                     </div>
