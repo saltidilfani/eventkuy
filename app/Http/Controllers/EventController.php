@@ -37,7 +37,7 @@ class EventController extends Controller
 
         $events = $query->paginate(10)->withQueryString();
 
-        return view('admin.events.daftar', [
+        return view('admin.events.daftar_events', [
             'events' => $events,
             'search' => $request->search ?? ''
         ]);
@@ -133,9 +133,7 @@ class EventController extends Controller
     // Admin methods
     public function create()
     {
-        $categories = Category::all();
-        $locations = Location::all();
-        return view('admin.events.tambah', compact('categories', 'locations'));
+        return view('admin.categories.add_kategori');
     }
 
     public function store(Request $request)
