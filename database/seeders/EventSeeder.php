@@ -28,7 +28,7 @@ class EventSeeder extends Seeder
                 'category_id' => $categories->random(),
                 'location_id' => $locations->random(),
                 'organizer' => $faker->company,
-                'max_participants' => $faker->numberBetween(50, 200)
+                'max_participants' => $faker->numberBetween(50, 200),
             ]);
         }
     }
