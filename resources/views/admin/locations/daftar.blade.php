@@ -7,7 +7,7 @@
         <h2 class="text-dark mb-0">Manajemen Lokasi</h2>
         <p class="text-muted">Kelola semua lokasi event di sini.</p>
     </div>
-    <a href="{{ route('admin.locations.create') }}" class="btn btn-primary" style="background:var(--primary-admin)">
+    <a href="{{ route('admin.locations.create') }}" class="btn btn-primary px-4 py-2 fw-semibold" style="border-radius: 0.75rem;">
         <i class="fas fa-plus me-2"></i> Tambah Lokasi
     </a>
 </div>
@@ -21,7 +21,7 @@
                         <th class="py-3">ID</th>
                         <th class="py-3">Nama Lokasi</th>
                         <th class="py-3">Alamat</th>
-                        <th class="py-3 text-end">Aksi</th>
+                        <th class="py-3 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,12 +30,12 @@
                         <td class="align-middle">{{ $location->id }}</td>
                         <td class="align-middle fw-bold">{{ $location->location_name }}</td>
                         <td class="align-middle">{{ $location->address }}</td>
-                        <td class="text-end">
+                        <td class="text-center">
                             <form action="{{ route('admin.locations.destroy', $location->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus lokasi ini?');">
-                                <a href="{{ route('admin.locations.edit', $location->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                                <a href="{{ route('admin.locations.edit', $location->id) }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Edit</a>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Hapus</button>
+                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i> Hapus</button>
                             </form>
                         </td>
                     </tr>

@@ -65,8 +65,10 @@
                     <div class="mb-3">
                         <label for="poster" class="form-label">Ganti Poster (Opsional)</label>
                         <input type="file" name="poster" class="form-control">
-                        @if($event->poster)
-                            <img src="{{ asset('storage/' . $event->poster) }}" alt="Poster" class="img-thumbnail mt-2" width="150">
+                        @if($event->poster && file_exists(public_path('storage/' . $event->poster)))
+                            <img src="{{ asset('storage/' . $event->poster) }}" alt="Poster" class="img-thumbnail" width="80" height="80" style="object-fit: cover;">
+                        @else
+                            <img src="https://via.placeholder.com/80x80?text=N/A" alt="No Poster" class="img-thumbnail" width="80" height="80" style="object-fit: cover;">
                         @endif
                     </div>
                 </div>

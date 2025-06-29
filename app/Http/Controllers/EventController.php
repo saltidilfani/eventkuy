@@ -133,7 +133,9 @@ class EventController extends Controller
     // Admin methods
     public function create()
     {
-        return view('admin.categories.add_kategori');
+        $categories = Category::all();
+        $locations = Location::all();
+        return view('admin.events.add_events', compact('categories', 'locations'));
     }
 
     public function store(Request $request)
@@ -162,7 +164,7 @@ class EventController extends Controller
     {
         $categories = Category::all();
         $locations = Location::all();
-        return view('admin.events.ubah', compact('event', 'categories', 'locations'));
+        return view('admin.events.edit_events', compact('event', 'categories', 'locations'));
     }
 
     public function update(Request $request, Event $event)

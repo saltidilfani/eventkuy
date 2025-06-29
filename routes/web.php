@@ -47,7 +47,7 @@ Route::get('/events', [EventController::class, 'allEvents'])->name('events.all')
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
 
@@ -101,4 +101,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('locations', LocationController::class)->except(['show']);
     Route::get('registrations', [RegistrationController::class, 'index'])->name('registrations.index');
+    // Route::get('/categories/add_kategori', [CategoryController::class, 'create'])->name('admin.categories.add_kategori');
 });

@@ -15,7 +15,7 @@ class LocationController extends Controller
 
     public function create()
     {
-        return view('admin.locations.tambah');
+        return view('admin.locations.add_lokasi');
     }
 
     public function store(Request $request)
@@ -31,7 +31,7 @@ class LocationController extends Controller
 
     public function edit(Location $location)
     {
-        return view('admin.locations.ubah', compact('location'));
+        return view('admin.locations.edit_lokasi', compact('location'));
     }
 
     public function update(Request $request, Location $location)

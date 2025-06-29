@@ -178,7 +178,7 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand fs-4" href="{{ route('home') }}">
-                <i class="fas fa-rocket me-2"></i>Event PNP
+                <i class="fas fa-rocket me-2"></i>EventKuy
             </a>
 
             <!-- Tombol Toggler untuk Mobile -->
@@ -195,19 +195,19 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('events.all') ? 'active' : '' }}" href="{{ route('events.all') }}">Events</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
-                    </li>
+                    </li> -->
                 </ul>
 
                 <!-- Ikon Profil di Kanan -->
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" id="navbarDropdownProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle fa-lg"></i>
+                            <i class="fas fa-user-circle fa-2x"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownProfile">
                             @guest

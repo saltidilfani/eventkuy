@@ -7,9 +7,6 @@
         <h2 class="text-dark mb-0">Tambah Lokasi Baru</h2>
         <p class="text-muted">Isi form di bawah untuk menambahkan lokasi baru.</p>
     </div>
-    <a href="{{ route('admin.locations.index') }}" class="btn btn-outline-secondary">
-        <i class="fas fa-arrow-left me-2"></i> Kembali
-    </a>
 </div>
 
 <div class="card shadow-sm">
@@ -32,7 +29,9 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary" style="background:var(--primary-admin)">Simpan Lokasi</button>
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-save me-1"></i> Simpan Lokasi
+            </button>
         </form>
     </div>
 </div>

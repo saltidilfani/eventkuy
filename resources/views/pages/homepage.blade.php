@@ -94,4 +94,8 @@
         </div>
     </div>
 </section>
+
+<a href="ROUTE" class="btn btn-primary px-4 py-2 fw-semibold rounded-3">
+    <i class="fas fa-plus me-2"></i> Tambah Kategori
+</a>
 @endsection 

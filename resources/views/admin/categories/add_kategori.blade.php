@@ -11,7 +11,9 @@
                 <input type="text" name="name" class="form-control" required>
                 @error('name') <div class="text-danger">{{ $message }}</div> @enderror
             </div>
-            <button class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold rounded-3">
+                <i class="fas fa-save me-2"></i> Simpan Kategori
+            </button>
             <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Batal</a>
         </form>
     </div>

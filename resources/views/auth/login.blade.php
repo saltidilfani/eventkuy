@@ -10,7 +10,7 @@
                     <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center text-white" style="background-image: linear-gradient(to top right, #FF8008, #FFC837);">
                         <div class="text-center p-5">
                             <i class="fas fa-rocket fa-4x mb-4"></i>
-                            <h2 class="h1">Event PNP</h2>
+                            <h2 class="h1">EventKuy</h2>
                             <p>Satu platform untuk semua event dan kegiatan di lingkungan Politeknik Negeri Padang.</p>
                         </div>
                     </div>

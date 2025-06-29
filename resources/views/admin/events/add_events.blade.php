@@ -83,8 +83,8 @@
             <div class="row">
                 <div class="col-md-8"></div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary w-100" style="background:var(--primary-admin)">
-                        <i class="fas fa-save me-2"></i>Simpan Event
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-save me-1"></i> Simpan Event
                     </button>
                 </div>
             </div>

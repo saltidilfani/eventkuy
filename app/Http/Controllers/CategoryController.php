@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('admin.categories.tambah');
+        return view('admin.categories.add_kategori');
     }
 
     public function store(Request $request)
@@ -33,7 +33,7 @@ class CategoryController extends Controller
     // Penyempurnaan: Menggunakan Route Model Binding (Category $category)
     public function edit(Category $category)
     {
-        return view('admin.categories.ubah', compact('category'));
+        return view('admin.categories.edit_kategori', compact('category'));
     }
 
     // Penyempurnaan: Menggunakan Route Model Binding (Category $category)

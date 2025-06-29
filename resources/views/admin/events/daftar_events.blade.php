@@ -8,7 +8,7 @@
         <p class="text-muted">Kelola, cari, dan lihat semua event di sini.</p>
     </div>
     <div class="col-md-6 text-md-end">
-        <a href="{{ route('admin.events.create') }}" class="btn btn-primary" style="background:var(--primary-admin)">
+        <a href="{{ route('admin.events.create') }}" class="btn btn-primary px-4 py-2 fw-semibold" style="border-radius: 0.75rem;">
             <i class="fas fa-plus me-2"></i> Tambah Event Baru
         </a>
     </div>
@@ -19,7 +19,7 @@
         <form action="{{ route('admin.events.index') }}" method="GET">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan judul event..." value="{{ $search }}">
-                <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
             </div>
         </form>
     </div>
@@ -61,11 +61,11 @@
                         <td class="align-middle">{{ $event->event_date->format('d M Y') }}</td>
                         <td class="text-end align-middle p-3">
                             <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus event ini?');">
-                                <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="{{ route('events.detail', $event->id) }}" target="_blank" class="btn btn-sm btn-info" title="Lihat"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('events.detail', $event->id) }}" target="_blank" class="btn btn-sm btn-outline-info" title="Lihat"><i class="fas fa-eye"></i></a>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" title="Hapus"><i class="fas fa-trash"></i></button>
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="fas fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>

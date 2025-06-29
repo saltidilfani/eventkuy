@@ -17,6 +17,8 @@ class LocationSeeder extends Seeder
             ['location_name' => 'Online via Zoom', 'address' => 'Tautan akan diberikan setelah pendaftaran'],
             ['location_name' => 'Lapangan Olahraga', 'address' => 'Area outdoor kampus'],
             ['location_name' => 'Gedung C Lantai 3', 'address' => 'Jl. Kampus, Limau Manis, Padang'],
+            ['location_name' => 'Gedung AC Lantai 3', 'address' => 'Jl. Kampus, Limau Manis, Padang'],
+
         ];
 
         foreach ($locations as $location) {
