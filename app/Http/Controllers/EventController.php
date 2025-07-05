@@ -46,7 +46,7 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::with(['category', 'location'])->findOrFail($id);
-        return view('events.detail_event', compact('event'));
+        return view('pages.detail_event', compact('event'));
     }
 
     public function showByCategory($categoryId)
@@ -56,7 +56,7 @@ class EventController extends Controller
             ->where('event_date', '>=', now())
             ->orderBy('event_date', 'asc')
             ->paginate(12);
-        return view('categories.event-perkategori', compact('events', 'category'));
+        return view('pages.event-perkategori', compact('events', 'category'));
     }
 
     public function allEvents(Request $request)
@@ -71,7 +71,7 @@ class EventController extends Controller
 
         $events = $query->paginate(12)->withQueryString();
 
-        return view('events.semua_event', [
+        return view('pages.semua_event', [
             'events' => $events,
             'search' => $request->search ?? ''
         ]);
@@ -81,9 +81,9 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         if (Registration::where('user_id', auth()->id())->where('event_id', $id)->exists()) {
-            return redirect()->route('events.detail', $id)->with('error', 'Anda sudah terdaftar di event ini!');
+            return redirect()->route('pages.detail', $id)->with('error', 'Anda sudah terdaftar di event ini!');
         }
-        return view('registrations.pendaftaran', compact('event'));
+        return view('pages.pendaftaran', compact('event'));
     }
 
     public function register(Request $request, $id)
@@ -107,7 +107,7 @@ class EventController extends Controller
         if (!$registrationData) {
             return redirect()->route('events.register', $id)->with('error', 'Data pendaftaran tidak ditemukan.');
         }
-        return view('registrations.konfirmasi', compact('event', 'registrationData'));
+        return view('pages.konfirmasi', compact('event', 'registrationData'));
     }
 
     public function confirmRegistration(Request $request, $id)

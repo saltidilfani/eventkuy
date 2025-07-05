@@ -10,7 +10,11 @@ class Event extends Model
     use HasFactory;
 
     protected $table = 'salti_events';
-    protected $fillable = ['title', 'description', 'event_date', 'event_time', 'category_id', 'location_id', 'poster', 'organizer', 'max_participants'];
+    protected $fillable = [
+        'title', 'description', 'event_date', 'event_time', 
+        'category_id', 'location_id', 'poster', 'organizer', 
+        'max_participants'
+    ];
     protected $casts = ['event_date' => 'date'];
 
     public function category()

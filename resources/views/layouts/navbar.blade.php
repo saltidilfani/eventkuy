@@ -195,12 +195,9 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('events.all') ? 'active' : '' }}" href="{{ route('events.all') }}">Events</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li> -->
+                        <a class="nav-link {{ Request::routeIs('contact.show') ? 'active' : '' }}" href="{{ route('contact.show') }}">Contact</a>
+                    </li>
                 </ul>
 
                 <!-- Ikon Profil di Kanan -->
@@ -241,9 +238,35 @@
         @yield('content')
     </main>
 
-    <footer class="text-white text-center py-4 mt-auto">
-        <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} Event Kampus Politeknik Negeri Padang. By Salti Dilfani | 2301093007.</p>
+    <footer class="text-white mt-auto" style="background-color: var(--text-dark);">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <a href="{{ route('home') }}" class="navbar-brand text-white fs-5 mb-2 d-inline-block">
+                        <i class="fas fa-rocket me-2"></i>EventKuy
+                    </a>
+                    <div class="small text-light">Event Kampus Politeknik Negeri Padang</div>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item"><a href="{{ route('home') }}" class="text-light text-decoration-none">Home</a></li>
+                        <li class="list-inline-item"><a href="{{ route('events.all') }}" class="text-light text-decoration-none">Events</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <a href="#" class="text-light me-2"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-light me-2"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-light"><i class="fab fa-linkedin fa-lg"></i></a>
+                    <div class="small mt-2">Email: info@eventkuy.com</div>
+                </div>
+            </div>
+            <hr class="my-3" style="border-color: #444;">
+            <div class="row">
+                <div class="col-12 text-center small text-light">
+                    &copy; {{ date('Y') }} EventKuy PNP. All rights reserved.
+                </div>
+            </div>
         </div>
     </footer>
 

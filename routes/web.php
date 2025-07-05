@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ContactController;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Registration;
@@ -37,6 +38,10 @@ Route::get('/categories/{id}', [EventController::class, 'showByCategory'])->name
 
 // Halaman untuk melihat semua event
 Route::get('/events', [EventController::class, 'allEvents'])->name('events.all');
+
+// Halaman Contact
+Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 
 // ===================================================================
