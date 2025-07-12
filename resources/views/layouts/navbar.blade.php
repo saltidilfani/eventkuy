@@ -76,6 +76,12 @@
         .dropdown-menu {
             border-radius: .5rem;
             border: 1px solid var(--border-color);
+            background: #f4f7f6 !important;
+            color: var(--text-dark);
+        }
+        .dropdown-menu .dropdown-item:active, .dropdown-menu .dropdown-item:focus, .dropdown-menu .dropdown-item:hover {
+            background: var(--primary-color) !important;
+            color: #fff !important;
         }
 
         .btn-primary {
@@ -193,12 +199,24 @@
                         <a class="nav-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('events.all') ? 'active' : '' }}" href="{{ route('events.all') }}">Events</a>
+                        <a class="nav-link {{ Request::routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('contact.show') ? 'active' : '' }}" href="{{ route('contact.show') }}">Contact</a>
+                        <a class="nav-link {{ Request::routeIs('events.all') ? 'active' : '' }}" href="{{ route('events.all') }}">Events</a>
                     </li>
+                    @auth
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::routeIs('events.submit.form') ? 'active' : '' }}" href="{{ route('events.submit.form') }}">
+                            Ajukan
+                        </a>
+                    </li>
+                    @endauth
                 </ul>
+                <!-- Search Form -->
+                <form class="d-flex align-items-center ms-lg-3 my-2 my-lg-0 position-relative" action="{{ route('events.all') }}" method="GET" style="max-width: 260px; min-width: 120px;">
+                    <span class="position-absolute start-0 top-50 translate-middle-y ps-3 text-muted" style="z-index:2;"><i class="fas fa-search"></i></span>
+                    <input class="form-control form-control-sm ps-5 py-2" type="search" name="search" placeholder="Cari event kampus..." aria-label="Search" style="border-radius: 2rem; border: 1.5px solid #fff; background: #fff; min-width: 120px; box-shadow: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#FF6B08'" onblur="this.style.borderColor='#fff'">
+                </form>
 
                 <!-- Ikon Profil di Kanan -->
                 <ul class="navbar-nav">
@@ -240,31 +258,40 @@
 
     <footer class="text-white mt-auto" style="background-color: var(--text-dark);">
         <div class="container py-4">
-            <div class="row align-items-center">
+            <div class="row gy-4 align-items-start">
                 <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
                     <a href="{{ route('home') }}" class="navbar-brand text-white fs-5 mb-2 d-inline-block">
                         <i class="fas fa-rocket me-2"></i>EventKuy
                     </a>
-                    <div class="small text-light">Event Kampus Politeknik Negeri Padang</div>
+                    <div class="small text-light mb-2">Event Kampus Politeknik Negeri Padang</div>
+                    <div class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <span class="small">Jl. Kampus Politeknik Negeri Padang, Limau Manis, Pauh, Padang, Sumatera Barat 25164</span>
+                    </div>
                 </div>
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <ul class="list-inline mb-0 text-center">
+                <div class="col-md-4 mb-3 mb-md-0 d-flex flex-column justify-content-center align-items-center">
+                    <ul class="list-inline mb-3 text-center">
                         <li class="list-inline-item"><a href="{{ route('home') }}" class="text-light text-decoration-none">Home</a></li>
+                        <li class="list-inline-item"><a href="{{ route('about') }}" class="text-light text-decoration-none">About</a></li>
                         <li class="list-inline-item"><a href="{{ route('events.all') }}" class="text-light text-decoration-none">Events</a></li>
-                        <li class="list-inline-item"><a href="#" class="text-light text-decoration-none">Contact</a></li>
+                        @auth
+                        <li class="list-inline-item"><a href="{{ route('events.submit.form') }}" class="text-light text-decoration-none">Ajukan Event</a></li>
+                        @endauth
                     </ul>
                 </div>
-                <div class="col-md-4 text-center text-md-end">
-                    <a href="#" class="text-light me-2"><i class="fab fa-facebook fa-lg"></i></a>
-                    <a href="#" class="text-light me-2"><i class="fab fa-twitter fa-lg"></i></a>
-                    <a href="#" class="text-light"><i class="fab fa-linkedin fa-lg"></i></a>
-                    <div class="small mt-2">Email: info@eventkuy.com</div>
+                <div class="col-md-4 text-center text-md-end d-flex flex-column align-items-center align-items-md-end justify-content-center justify-content-md-start">
+                    <div class="mb-3">
+                        <a href="#" class="text-light me-2"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-light me-2"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+                    <div class="small">Email: info@eventkuy.com</div>
                 </div>
             </div>
             <hr class="my-3" style="border-color: #444;">
             <div class="row">
                 <div class="col-12 text-center small text-light">
-                    &copy; {{ date('Y') }} EventKuy PNP. All rights reserved.
+                    &copy; {{ date('Y') }} EventKuy PNP by Salti Dilfani. All rights reserved.
                 </div>
             </div>
         </div>

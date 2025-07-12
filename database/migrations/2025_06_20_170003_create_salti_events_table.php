@@ -18,6 +18,9 @@ return new class extends Migration {
             $table->string('poster')->nullable();
             $table->string('organizer')->nullable();
             $table->integer('max_participants')->default(100);
+            // Kolom approval
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->foreignId('submitted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }

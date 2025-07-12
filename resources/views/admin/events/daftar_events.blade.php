@@ -33,7 +33,7 @@
                         <th class="py-3 px-3">Status</th>
                         <th class="py-3 px-3">Pendaftar</th>
                         <th class="py-3 px-3">Tanggal</th>
-                        <th class="py-3 px-3 text-end">Aksi</th>
+                        <th class="py-3 px-2 text-center" style="font-size:0.95rem;font-weight:600;min-width:60px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,14 +59,47 @@
                             <span class="fw-bold">{{ $event->registrations_count }}</span> / {{ $event->max_participants }}
                         </td>
                         <td class="align-middle">{{ $event->event_date->format('d M Y') }}</td>
+                        <td class="align-middle">
+                            @if($event->status === 'approved')
+                                <span class="badge bg-success">Disetujui</span>
+                            @elseif($event->status === 'pending')
+                                <span class="badge bg-warning text-dark">Menunggu</span>
+                            @elseif($event->status === 'rejected')
+                                <span class="badge bg-danger">Ditolak</span>
+                            @else
+                                <span class="badge bg-secondary">-</span>
+                            @endif
+                        </td>
                         <td class="text-end align-middle p-3">
-                            <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus event ini?');">
-                                <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="{{ route('events.detail', $event->id) }}" target="_blank" class="btn btn-sm btn-outline-info" title="Lihat"><i class="fas fa-eye"></i></a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="fas fa-trash"></i></button>
-                            </form>
+                            <div class="d-flex flex-column align-items-end gap-1">
+                                <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center" title="Edit" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ route('events.detail', $event->id) }}" target="_blank" class="btn btn-sm btn-outline-info d-flex align-items-center justify-content-center" title="Lihat" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center" title="Hapus" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                @if($event->status === 'pending')
+                                    <form action="{{ route('admin.events.approve', $event->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-success d-flex align-items-center justify-content-center" title="Setujui" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.events.reject', $event->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger d-flex align-items-center justify-content-center" title="Tolak" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -90,3 +123,14 @@
     </div>
 </div>
 @endsection 
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+@endpush 

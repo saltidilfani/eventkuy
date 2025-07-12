@@ -59,26 +59,6 @@
                         <input type="text" name="organizer" id="organizer" class="form-control" value="{{ old('organizer', $event->organizer) }}">
                     </div>
                     <div class="mb-3">
-                        <label for="instagram" class="form-label">Instagram Penyelenggara (Opsional)</label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="fab fa-instagram"></i>
-                            </span>
-                            <input type="text" 
-                                   class="form-control @error('instagram') is-invalid @enderror" 
-                                   id="instagram" 
-                                   name="instagram" 
-                                   placeholder="username_instagram"
-                                   value="{{ old('instagram', $event->instagram) }}">
-                        </div>
-                        <div class="form-text">
-                            Masukkan username Instagram tanpa @ (contoh: hmj_ti_pnp)
-                        </div>
-                        @error('instagram')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
                         <label for="max_participants" class="form-label">Kuota Peserta</label>
                         <input type="number" name="max_participants" id="max_participants" class="form-control" value="{{ old('max_participants', $event->max_participants) }}" required>
                     </div>

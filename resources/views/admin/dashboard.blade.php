@@ -175,6 +175,34 @@
                         yPadding: 15,
                         displayColors: false,
                         caretPadding: 10,
+                        callbacks: {
+                            label: function(context) {
+                                // Ambil label dan value
+                                var label = context.label || '';
+                                var value = context.parsed || 0;
+                                var total = context.chart._metasets[context.datasetIndex].total || 1;
+                                var percent = ((value / total) * 100).toFixed(1) + '%';
+                                // Tampilkan label dan value dengan span warna hitam
+                                return label + ': ' + '%c' + percent;
+                            },
+                            labelTextColor: function(context) {
+                                // Hanya value (presentase) yang hitam
+                                return '#000';
+                            }
+                        },
+                        // Custom rendering agar value (presentase) hitam
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.label || '';
+                                var value = context.parsed || 0;
+                                var total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                var percent = ((value / total) * 100).toFixed(1) + '%';
+                                return label + ': ' + percent;
+                            },
+                            labelTextColor: function(context) {
+                                return '#000';
+                            }
+                        }
                     },
                 },
                 cutout: '80%',

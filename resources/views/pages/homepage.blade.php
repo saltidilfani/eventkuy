@@ -3,12 +3,41 @@
 
 @section('content')
 <!-- Hero Section -->
-<div class="bg-light-custom py-5">
-    <div class="container text-center py-5">
-        <h1 class="display-4 fw-bold text-dark">Temukan Event Terbaik Kampus</h1>
-        <p class="lead text-secondary col-lg-8 mx-auto">Jelajahi berbagai seminar, workshop, dan kompetisi untuk menambah wawasan dan pengalamanmu di Politeknik Negeri Padang.</p>
-        <a href="#events" class="btn btn-primary btn-lg mt-3">Lihat Event Terbaru</a>
+<div id="heroCarousel" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{{ asset('images/ti1.jpg') }}" class="d-block w-100" style="height: 420px; object-fit: cover;">
+            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 top-0 start-0 end-0 bottom-0" style="background:rgba(0,0,0,0.35);">
+                <h1 class="display-4 fw-bold text-white mb-3">Temukan Event Terbaik Kampus</h1>
+                <p class="lead text-white col-lg-8 mx-auto mb-4">Jelajahi berbagai seminar, workshop, dan kompetisi untuk menambah wawasan dan pengalamanmu di Politeknik Negeri Padang.</p>
+                <a href="#events" class="btn btn-primary btn-lg mt-2">Lihat Event Terbaru</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+        <img src="{{ asset('images/foto1.jpg') }}" class="d-block w-100" style="height: 420px; object-fit: cover;">
+            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 top-0 start-0 end-0 bottom-0" style="background:rgba(0,0,0,0.35);">
+                <h1 class="display-4 fw-bold text-white mb-3">Bergabung di Event Favoritmu</h1>
+                <p class="lead text-white col-lg-8 mx-auto mb-4">Ayo ramaikan event kampus, perluas jaringan dan pengalaman bersama teman-teman baru!</p>
+                <a href="#events" class="btn btn-primary btn-lg mt-2">Lihat Event Terbaru</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+        <img src="{{ asset('images/pnp1.jpg') }}" class="d-block w-100" style="height: 420px; object-fit: cover;">
+            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 top-0 start-0 end-0 bottom-0" style="background:rgba(0,0,0,0.35);">
+                <h1 class="display-4 fw-bold text-white mb-3">EventKuy Satu Platform Semua Event</h1>
+                <p class="lead text-white col-lg-8 mx-auto mb-4">Mudah cari, daftar, dan ikuti event seru di Politeknik Negeri Padang.</p>
+                <a href="#events" class="btn btn-primary btn-lg mt-2">Lihat Event Terbaru</a>
+            </div>
+        </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
 
 <!-- Categories Section (dipindahkan ke atas) -->
@@ -61,7 +90,7 @@
         <div class="row">
             @forelse($events as $event)
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100 shadow-sm border-0">
+                <div class="card h-100 shadow-sm border-0 event-card-bg">
                      @if($event->poster)
                         <img src="{{ asset('storage/' . $event->poster) }}" class="card-img-top" alt="Poster Event" style="height: 200px; object-fit: cover;">
                     @else
@@ -95,3 +124,24 @@
     </div>
 </section>
 @endsection 
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@endpush 
+
+<style>
+    .event-card-bg {
+        background: #fff !important;
+        border-radius: 1rem !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-bottom: 2.5px solid #e5e7eb !important; /* Abu-abu terang */
+        border-right: 2.5px solid #e5e7eb !important;
+        box-shadow: none !important;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .event-card-bg:hover {
+        box-shadow: 0 10px 30px rgba(44, 62, 80, 0.10), 0 5px 25px rgba(44, 62, 80, 0.06);
+        transform: translateY(-5px);
+    }
+</style> 
