@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Event;
 use App\Models\Category;
 use App\Models\Location;
 use App\Models\Registration;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -31,6 +31,7 @@ class EventController extends Controller
     {
         $query = Event::with(['category', 'location', 'registrations'])
             ->withCount('registrations')
+            ->where('status', 'approved') // tampilkan semua event yang sudah disetujui
             ->latest();
 
         // Fitur Pencarian
@@ -46,13 +47,7 @@ class EventController extends Controller
         ]);
     }
 
-    public function show($id)
-    {
-        $event = Event::with(['category', 'location'])
-            ->where('status', 'approved')
-            ->findOrFail($id);
-        return view('pages.detail_event', compact('event'));
-    }
+
 
     public function showByCategory($categoryId)
     {
@@ -144,7 +139,7 @@ class EventController extends Controller
     {
         $categories = \App\Models\Category::all();
         $locations = \App\Models\Location::all();
-        return view('pages.submit_event', compact('categories', 'locations'));
+        return view('pages.ajukan_event', compact('categories', 'locations'));
     }
 
     /**
@@ -201,6 +196,7 @@ class EventController extends Controller
         }
 
         $validatedData['status'] = 'approved'; // Event admin langsung tampil
+        $validatedData['submitted_by'] = null; // Pastikan event admin tidak memiliki submitted_by
 
         Event::create($validatedData);
         return redirect()->route('admin.events.index')->with('success', 'Event berhasil ditambahkan!');
@@ -248,15 +244,36 @@ class EventController extends Controller
     }
 
     /**
+     * Tampilkan detail event untuk admin
+     */
+    public function show($id)
+    {
+        $event = Event::with(['category', 'location', 'submittedBy'])->findOrFail($id);
+        
+        // Jika admin, bisa lihat semua event termasuk pending
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            return view('admin.pending.show', compact('event'));
+        }
+        
+        // Jika user biasa, hanya bisa lihat event approved
+        if ($event->status !== 'approved') {
+            abort(404);
+        }
+        
+        return view('pages.detail_event', compact('event'));
+    }
+
+    /**
      * Halaman admin: daftar event pending approval
      */
     public function adminPendingEvents()
     {
-        $events = \App\Models\Event::with(['category', 'location'])
+        $events = \App\Models\Event::with(['category', 'location', 'submittedBy'])
             ->where('status', 'pending')
+            ->whereNotNull('submitted_by') // Hanya event yang diajukan user
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        return view('admin.events.submit', compact('events'));
+        return view('admin.pending.submit', compact('events'));
     }
 
     /**
@@ -265,6 +282,12 @@ class EventController extends Controller
     public function approveEvent($id)
     {
         $event = \App\Models\Event::findOrFail($id);
+        
+        // Pastikan hanya bisa approve event yang diajukan user
+        if (!$event->submitted_by) {
+            return redirect()->back()->with('error', 'Event ini bukan event yang diajukan user.');
+        }
+        
         $event->status = 'approved';
         $event->save();
         return redirect()->back()->with('success', 'Event berhasil disetujui!');
@@ -276,6 +299,12 @@ class EventController extends Controller
     public function rejectEvent($id)
     {
         $event = \App\Models\Event::findOrFail($id);
+        
+        // Pastikan hanya bisa reject event yang diajukan user
+        if (!$event->submitted_by) {
+            return redirect()->back()->with('error', 'Event ini bukan event yang diajukan user.');
+        }
+        
         $event->status = 'rejected';
         $event->save();
         return redirect()->back()->with('success', 'Event berhasil ditolak.');

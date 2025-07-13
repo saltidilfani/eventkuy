@@ -30,14 +30,17 @@ use App\Models\Category;
 // Halaman utama, menampilkan event dan kategori
 Route::get('/', [EventController::class, 'welcome'])->name('home');
 
-// Halaman untuk melihat detail sebuah event
-Route::get('/events/{id}', [EventController::class, 'show'])->name('events.detail');
-
-// Halaman untuk melihat semua event dalam satu kategori
-Route::get('/categories/{id}', [EventController::class, 'showByCategory'])->name('categories.show');
+// Route pengajuan event oleh user (harus di atas semua route events lainnya)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/events/submit', [EventController::class, 'showSubmitForm'])->name('events.submit.form');
+    Route::post('/events/submit', [EventController::class, 'storeSubmittedEvent'])->name('events.submit.store');
+});
 
 // Halaman untuk melihat semua event
 Route::get('/events', [EventController::class, 'allEvents'])->name('events.all');
+
+// Halaman untuk melihat semua event dalam satu kategori
+Route::get('/categories/{id}', [EventController::class, 'showByCategory'])->name('categories.show');
 
 // Halaman Contact
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
@@ -45,6 +48,9 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 
 // Halaman About Us
 Route::view('/about', 'pages.about')->name('about');
+
+// Halaman untuk melihat detail sebuah event
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.detail');
 
 
 // ===================================================================
@@ -69,12 +75,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/events/{id}/register', [EventController::class, 'register'])->name('events.register.store');
     Route::get('/events/{id}/register/confirm', [EventController::class, 'showConfirmation'])->name('events.register.confirm');
     Route::post('/events/{id}/register/confirm', [EventController::class, 'confirmRegistration'])->name('events.register.confirm.store');
-});
-
-// Route pengajuan event oleh user
-Route::middleware(['auth'])->group(function () {
-    Route::get('/events/submit', [EventController::class, 'showSubmitForm'])->name('events.submit.form');
-    Route::post('/events/submit', [EventController::class, 'storeSubmittedEvent'])->name('events.submit.store');
 });
 
 
@@ -111,16 +111,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // - Events
     // - Categories
     // - Locations
-    Route::resource('events', EventController::class)->except(['show']);
+    
+    // Route pending events harus di atas resource events untuk menghindari konflik
+    Route::get('/events/pending', [EventController::class, 'adminPendingEvents'])->name('events.pending');
+    Route::post('/events/{id}/approve', [EventController::class, 'approveEvent'])->name('events.approve');
+    Route::post('/events/{id}/reject', [EventController::class, 'rejectEvent'])->name('events.reject');
+    
+    Route::resource('events', EventController::class);
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('locations', LocationController::class)->except(['show']);
     Route::get('registrations', [RegistrationController::class, 'index'])->name('registrations.index');
     // Route::get('/categories/add_kategori', [CategoryController::class, 'create'])->name('admin.categories.add_kategori');
-});
-
-// Route admin approval event
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/events/pending', [App\Http\Controllers\EventController::class, 'adminPendingEvents'])->name('admin.events.pending');
-    Route::post('/events/{id}/approve', [App\Http\Controllers\EventController::class, 'approveEvent'])->name('admin.events.approve');
-    Route::post('/events/{id}/reject', [App\Http\Controllers\EventController::class, 'rejectEvent'])->name('admin.events.reject');
 });

@@ -11,7 +11,9 @@
                 </div>
                 <div class="card-body p-4">
                     @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
+                        <div style="background:#FFB86B;color:white;padding:12px 18px;border-radius:8px;margin-bottom:18px;font-weight:600;box-shadow:0 2px 8px #ffb86b33;">
+                            <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                        </div>
                     @endif
                     <form action="{{ route('events.submit.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf

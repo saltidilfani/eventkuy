@@ -142,7 +142,7 @@
                                             </a>
                                         @endguest
                                     @else
-                                        <button class="btn btn-secondary btn-md w-100 mb-2" disabled>
+                                        <button class="btn btn-md w-100 mb-2" disabled style="background-color: #8B0000; color: white;">
                                             <i class="fas fa-times-circle me-2"></i>Pendaftaran Ditutup
                                         </button>
                                     @endif
@@ -162,7 +162,7 @@
             <div class="col-lg-10">
                 <div class="card border-0 shadow-sm p-4">
                     <h4 class="fw-bold mb-3">Deskripsi Event</h4>
-                    <div class="text-secondary" style="font-size:1.1rem;line-height:1.8;white-space:pre-wrap;">
+                    <div class="text-secondary" style="font-size:0.95rem;line-height:1.6;white-space:pre-wrap;">
                         {{ $event->description }}
                     </div>
                 </div>

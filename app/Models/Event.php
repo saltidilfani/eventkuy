@@ -32,6 +32,11 @@ class Event extends Model
         return $this->hasMany(Registration::class, 'event_id');
     }
 
+    public function submittedBy()
+    {
+        return $this->belongsTo(User::class, 'submitted_by');
+    }
+
     // Accessor untuk menghitung sisa kuota
     public function getAvailableSlotsAttribute()
     {

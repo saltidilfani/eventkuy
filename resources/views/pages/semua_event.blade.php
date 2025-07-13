@@ -9,14 +9,6 @@
                 <h2 class="section-title">Semua Event Akan Datang</h2>
                 <p class="section-subtitle">Temukan event yang paling cocok untukmu dari semua kategori.</p>
             </div>
-            <div class="col-md-4">
-                <form action="{{ route('events.all') }}" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Cari event..." value="{{ $search ?? '' }}">
-                        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
-                    </div>
-                </form>
-            </div>
         </div>
 
         <div class="row">

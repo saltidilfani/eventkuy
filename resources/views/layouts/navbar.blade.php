@@ -39,12 +39,18 @@
             padding-top: 1rem;
             padding-bottom: 1rem;
         }
-
+        .navbar .container {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
         .navbar-brand {
             font-weight: 700;
             color: var(--primary-color) !important; /* Mengembalikan warna logo menjadi oranye */
+            margin-right: 2rem;
         }
-
+        .navbar .navbar-nav {
+            gap: 0.7rem;
+        }
         .navbar .nav-link {
             color: var(--text-dark); /* Mengembalikan warna link menjadi gelap */
             padding-left: 1rem;
@@ -52,7 +58,9 @@
             position: relative;
             transition: color 0.3s ease;
         }
-
+        .navbar .nav-link:last-child {
+            margin-right: 0;
+        }
         .navbar .nav-link:hover {
             color: var(--primary-color); /* Warna link saat di-hover menjadi oranye */
         }
@@ -176,6 +184,79 @@
         .category-link:hover h6 {
             color: var(--primary-color) !important;
         }
+
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FF6B08, #FFC837, #FF6B08);
+        }
+
+        footer .navbar-brand:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #FFC837 !important;
+            transition: color 0.3s ease;
+        }
+
+        footer .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        footer .social-links a:hover {
+            background: #FF6B08;
+            transform: translateY(-3px);
+        }
+
+        footer iframe {
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            footer .text-md-end {
+                text-align: center !important;
+            }
+            footer .text-md-start {
+                text-align: center !important;
+            }
+        }
+        @media (max-width: 991.98px) {
+            .navbar .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                padding-top: 0.7rem;
+                padding-bottom: 0.7rem;
+            }
+            .navbar .nav-link {
+                padding-left: 0.7rem;
+                padding-right: 0.7rem;
+            }
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -207,10 +288,13 @@
                     @auth
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('events.submit.form') ? 'active' : '' }}" href="{{ route('events.submit.form') }}">
-                            Ajukan
+                            Create Events
                         </a>
                     </li>
                     @endauth
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::routeIs('contact.show') ? 'active' : '' }}" href="{{ route('contact.show') }}">Contact</a>
+                    </li>
                 </ul>
                 <!-- Search Form -->
                 <form class="d-flex align-items-center ms-lg-3 my-2 my-lg-0 position-relative" action="{{ route('events.all') }}" method="GET" style="max-width: 260px; min-width: 120px;">
@@ -256,42 +340,118 @@
         @yield('content')
     </main>
 
-    <footer class="text-white mt-auto" style="background-color: var(--text-dark);">
-        <div class="container py-4">
-            <div class="row gy-4 align-items-start">
-                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
-                    <a href="{{ route('home') }}" class="navbar-brand text-white fs-5 mb-2 d-inline-block">
-                        <i class="fas fa-rocket me-2"></i>EventKuy
-                    </a>
-                    <div class="small text-light mb-2">Event Kampus Politeknik Negeri Padang</div>
-                    <div class="mb-2">
-                        <i class="fas fa-map-marker-alt me-2"></i>
-                        <span class="small">Jl. Kampus Politeknik Negeri Padang, Limau Manis, Pauh, Padang, Sumatera Barat 25164</span>
+    <footer class="text-white mt-auto" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+        <div class="container py-5">
+            <!-- Main Footer Content -->
+            <div class="row g-4 mb-4">
+                <!-- Company Info -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-4">
+                        <a href="{{ route('home') }}" class="navbar-brand text-white fs-4 mb-3 d-inline-block">
+                            <i class="fas fa-rocket me-2"></i>EventKuy
+                        </a>
+                        <p class="text-light mb-3" style="line-height: 1.6;">
+                            Platform event kampus terdepan untuk Politeknik Negeri Padang. 
+                            Temukan dan ikuti berbagai event menarik di kampus Anda.
+                        </p>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-map-marker-alt text-warning me-3"></i>
+                            <span class="text-light small">Jl. Kampus Politeknik Negeri Padang, Limau Manis, Pauh, Padang, Sumatera Barat 25164</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-phone text-warning me-3"></i>
+                            <span class="text-light small">(0751) 72590</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope text-warning me-3"></i>
+                            <span class="text-light small">info@eventkuy.com</span>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3 mb-md-0 d-flex flex-column justify-content-center align-items-center">
-                    <ul class="list-inline mb-3 text-center">
-                        <li class="list-inline-item"><a href="{{ route('home') }}" class="text-light text-decoration-none">Home</a></li>
-                        <li class="list-inline-item"><a href="{{ route('about') }}" class="text-light text-decoration-none">About</a></li>
-                        <li class="list-inline-item"><a href="{{ route('events.all') }}" class="text-light text-decoration-none">Events</a></li>
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="{{ route('home') }}" class="text-light text-decoration-none small">
+                                <i class="fas fa-chevron-right me-2 text-warning"></i>Home
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ route('about') }}" class="text-light text-decoration-none small">
+                                <i class="fas fa-chevron-right me-2 text-warning"></i>About
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ route('events.all') }}" class="text-light text-decoration-none small">
+                                <i class="fas fa-chevron-right me-2 text-warning"></i>Events
+                            </a>
+                        </li>
                         @auth
-                        <li class="list-inline-item"><a href="{{ route('events.submit.form') }}" class="text-light text-decoration-none">Ajukan Event</a></li>
+                        <li class="mb-2">
+                            <a href="{{ route('events.submit.form') }}" class="text-light text-decoration-none small">
+                                <i class="fas fa-chevron-right me-2 text-warning"></i>Ajukan Event
+                            </a>
+                        </li>
                         @endauth
+                        <li class="mb-2">
+                            <a href="{{ route('contact.show') }}" class="text-light text-decoration-none small">
+                                <i class="fas fa-chevron-right me-2 text-warning"></i>Contact
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-4 text-center text-md-end d-flex flex-column align-items-center align-items-md-end justify-content-center justify-content-md-start">
-                    <div class="mb-3">
-                        <a href="#" class="text-light me-2"><i class="fab fa-facebook fa-lg"></i></a>
-                        <a href="#" class="text-light me-2"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-instagram fa-lg"></i></a>
+
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-white fw-bold mb-3">Social Media</h6>
+                    <div class="social-links">
+                        <a href="#" class="text-light text-decoration-none" title="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-light text-decoration-none" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-light text-decoration-none" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-light text-decoration-none" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
                     </div>
-                    <div class="small">Email: info@eventkuy.com</div>
+                </div>
+
+                <!-- Maps -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-white fw-bold mb-3">Lokasi Kami</h6>
+                    <div class="ratio ratio-4x3 rounded overflow-hidden shadow" style="min-height: 220px;">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.3456789012345!2d100.466151!3d-0.9145679!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd4b7be9e52a171%3A0x609ef1cc57a38e32!2sPoliteknik%20Negeri%20Padang!5e0!3m2!1sid!2sid!4v1689000000000!5m2!1sid!2sid" 
+                            style="border:0; min-height: 220px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Lokasi Politeknik Negeri Padang">
+                        </iframe>
+                    </div>
                 </div>
             </div>
-            <hr class="my-3" style="border-color: #444;">
-            <div class="row">
-                <div class="col-12 text-center small text-light">
-                    &copy; {{ date('Y') }} EventKuy PNP by Salti Dilfani. All rights reserved.
+
+            <!-- Divider -->
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+
+            <!-- Bottom Footer -->
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="text-light small mb-0">
+                        &copy; {{ date('Y') }} EventKuy PNP by Salti Dilfani. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="text-light small mb-0">
+                        Made with <i class="fas fa-heart text-danger"></i> for PNP Community
+                    </p>
                 </div>
             </div>
         </div>

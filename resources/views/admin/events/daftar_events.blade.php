@@ -30,8 +30,8 @@
                     <tr>
                         <th class="py-3 px-3">Poster</th>
                         <th class="py-3 px-3">Judul</th>
-                        <th class="py-3 px-3">Status</th>
                         <th class="py-3 px-3">Pendaftar</th>
+                        <th class="py-3 px-3">Status</th>
                         <th class="py-3 px-3">Tanggal</th>
                         <th class="py-3 px-2 text-center" style="font-size:0.95rem;font-weight:600;min-width:60px;">Aksi</th>
                     </tr>
@@ -47,6 +47,9 @@
                             <small class="text-muted">{{ $event->category->name }} | {{ $event->location->location_name }}</small>
                         </td>
                         <td class="align-middle">
+                            <span class="fw-bold">{{ $event->registrations_count }}</span> / {{ $event->max_participants }}
+                        </td>
+                        <td class="align-middle">
                             @if($event->event_date->isFuture())
                                 <span class="badge bg-success">Akan Datang</span>
                             @elseif($event->event_date->isToday())
@@ -55,21 +58,8 @@
                                 <span class="badge bg-secondary">Selesai</span>
                             @endif
                         </td>
-                        <td class="align-middle">
-                            <span class="fw-bold">{{ $event->registrations_count }}</span> / {{ $event->max_participants }}
-                        </td>
                         <td class="align-middle">{{ $event->event_date->format('d M Y') }}</td>
-                        <td class="align-middle">
-                            @if($event->status === 'approved')
-                                <span class="badge bg-success">Disetujui</span>
-                            @elseif($event->status === 'pending')
-                                <span class="badge bg-warning text-dark">Menunggu</span>
-                            @elseif($event->status === 'rejected')
-                                <span class="badge bg-danger">Ditolak</span>
-                            @else
-                                <span class="badge bg-secondary">-</span>
-                            @endif
-                        </td>
+
                         <td class="text-end align-middle p-3">
                             <div class="d-flex flex-column align-items-end gap-1">
                                 <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center" title="Edit" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
@@ -79,26 +69,13 @@
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
+                                @csrf
+                                @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center" title="Hapus" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                </form>
-                                @if($event->status === 'pending')
-                                    <form action="{{ route('admin.events.approve', $event->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-success d-flex align-items-center justify-content-center" title="Setujui" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    </form>
-                                    <form action="{{ route('admin.events.reject', $event->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger d-flex align-items-center justify-content-center" title="Tolak" data-bs-toggle="tooltip" data-bs-placement="top" style="border-radius: 0.5rem; width: 32px; height: 32px; padding:0;">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </form>
-                                @endif
+                            </form>
+
                             </div>
                         </td>
                     </tr>

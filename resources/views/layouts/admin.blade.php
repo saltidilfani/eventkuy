@@ -351,10 +351,16 @@
                     </a>
                 </li>
                 <p>Manajemen</p>
-                <li class="{{ Request::routeIs('admin.events.*') ? 'active' : '' }}">
+                <li class="{{ Request::routeIs('admin.events.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.events.index') }}">
                         <i class="fas fa-calendar-check"></i>
                         Events
+                    </a>
+                </li>
+                <li class="{{ Request::routeIs('admin.events.pending') ? 'active' : '' }}">
+                    <a href="{{ route('admin.events.pending') }}">
+                        <i class="fas fa-clock"></i>
+                        Event Pending Approval
                     </a>
                 </li>
                 <li class="{{ Request::routeIs('admin.categories.*') ? 'active' : '' }}">

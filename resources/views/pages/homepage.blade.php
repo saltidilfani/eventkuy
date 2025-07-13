@@ -17,7 +17,7 @@
         <img src="{{ asset('images/foto1.jpg') }}" class="d-block w-100" style="height: 420px; object-fit: cover;">
             <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 top-0 start-0 end-0 bottom-0" style="background:rgba(0,0,0,0.35);">
                 <h1 class="display-4 fw-bold text-white mb-3">Bergabung di Event Favoritmu</h1>
-                <p class="lead text-white col-lg-8 mx-auto mb-4">Ayo ramaikan event kampus, perluas jaringan dan pengalaman bersama teman-teman baru!</p>
+                <p class="lead text-white col-lg-8 mx-auto mb-4">Ayo ramaikan event kampus, perluas jaringan dan pengalaman bersama teman baru!</p>
                 <a href="#events" class="btn btn-primary btn-lg mt-2">Lihat Event Terbaru</a>
             </div>
         </div>
