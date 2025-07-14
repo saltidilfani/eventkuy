@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Registration;
@@ -69,6 +70,9 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     // Tombol Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Notifikasi dan Riwayat User
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
     // Alur pendaftaran event (form, konfirmasi, simpan)
     Route::get('/events/{id}/register', [EventController::class, 'showRegistrationForm'])->name('events.register');

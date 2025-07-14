@@ -278,6 +278,85 @@
             vertical-align: middle;
             transition: color 0.2s;
         }
+
+        /* Notification Styles */
+        .notification-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .notification-dropdown {
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .notification-dropdown .dropdown-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 0.75rem 0.75rem 0 0;
+            padding: 1rem;
+        }
+
+        .notification-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .notification-dropdown .dropdown-item:hover {
+            background-color: rgba(255, 107, 8, 0.05);
+        }
+
+        .notification-dropdown .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-dark);
+        }
+
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .notification-empty {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-light);
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -325,33 +404,70 @@
 
                 <!-- Ikon Profil di Kanan -->
                 <ul class="navbar-nav">
+                    @auth
+                    <!-- Profil Dropdown dengan Notifikasi -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link position-relative" href="#" id="navbarDropdownProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle fa-2x"></i>
+                            @php
+                                $user = Auth::user();
+                                $totalRegistrations = $user->registrations()->count();
+                                $totalSubmittedEvents = \App\Models\Event::where('submitted_by', $user->id)->count();
+                                $totalNotifications = $totalRegistrations + $totalSubmittedEvents;
+                            @endphp
+                            @if($totalNotifications > 0)
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge">
+                                {{ $totalNotifications }}
+                            </span>
+                            @endif
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownProfile" style="width: 350px; max-height: 500px; overflow-y: auto;">
+                            <!-- Header Profil -->
+                            <li class="dropdown-header">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-user text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">{{ Auth::user()->name }}</div>
+                                        <div class="small text-muted">{{ Auth::user()->email }}</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <!-- Menu Actions -->
+                            <li>
+                                <a class="dropdown-item" href="{{ route('notifications.index') }}">
+                                    <i class="fas fa-bell fa-fw me-2"></i>Notifikasi & Riwayat
+                                </a>
+                            </li>
+                            @if(Auth::user()->isAdmin())
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                        <i class="fas fa-tachometer-alt fa-fw me-2"></i>Admin Dashboard
+                                    </a>
+                                </li>
+                            @endif
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" id="logout-form" class="d-none">@csrf</form>
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    @else
+                    <!-- Profil Dropdown untuk Guest -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" id="navbarDropdownProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user-circle fa-2x"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownProfile">
-                            @guest
-                                <li><a class="dropdown-item" href="{{ route('login') }}"><i class="fas fa-sign-in-alt fa-fw me-2"></i>Login</a></li>
-                                <li><a class="dropdown-item" href="{{ route('register') }}"><i class="fas fa-user-plus fa-fw me-2"></i>Register</a></li>
-                            @else
-                                <li class="dropdown-header">Halo, {{ Auth::user()->name }}</li>
-                                <li><hr class="dropdown-divider"></li>
-                                @if(Auth::user()->isAdmin())
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
-                                            <i class="fas fa-tachometer-alt fa-fw me-2"></i>Admin Dashboard
-                                        </a>
-                                    </li>
-                                @endif
-                                <li>
-                                    <form action="{{ route('logout') }}" method="POST" id="logout-form" class="d-none">@csrf</form>
-                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout
-                                    </a>
-                                </li>
-                            @endguest
+                            <li><a class="dropdown-item" href="{{ route('login') }}"><i class="fas fa-sign-in-alt fa-fw me-2"></i>Login</a></li>
+                            <li><a class="dropdown-item" href="{{ route('register') }}"><i class="fas fa-user-plus fa-fw me-2"></i>Register</a></li>
                         </ul>
                     </li>
+                    @endauth
                 </ul>
             </div>
         </div>

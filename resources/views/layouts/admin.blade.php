@@ -11,9 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #FF6B08;         /* Warna oranye utama */
-            --primary-hover: #E66007;         /* Oranye gelap */
-            --primary-light: #FFF3E0;         /* Oranye sangat terang */
+            --primary-color: #FF6B08;        
+            --primary-hover: #E66007;        
+            --primary-light: #FFF3E0;         
             --secondary-color: #f8f9fa;
             --text-dark: #2c3e50;
             --text-light: #7f8c8d;
@@ -102,6 +102,25 @@
         #sidebar ul li a i {
             width: 20px;
             margin-right: 0.75rem;
+        }
+        
+        /* Badge Notification Styling */
+        #sidebar ul li a .badge {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: pulse-badge 2s infinite;
+        }
+        
+        @keyframes pulse-badge {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+        
+        #sidebar ul li a {
+            position: relative;
         }
         
         /* Main Content */
@@ -361,6 +380,12 @@
                     <a href="{{ route('admin.events.pending') }}">
                         <i class="fas fa-clock"></i>
                         Event Pending Approval
+                        @php
+                            $pendingCount = \App\Models\Event::where('status', 'pending')->whereNotNull('submitted_by')->count();
+                        @endphp
+                        @if($pendingCount > 0)
+                            <span class="badge bg-danger ms-auto" style="font-size: 0.7rem; padding: 0.25rem 0.5rem;">{{ $pendingCount }}</span>
+                        @endif
                     </a>
                 </li>
                 <li class="{{ Request::routeIs('admin.categories.*') ? 'active' : '' }}">
