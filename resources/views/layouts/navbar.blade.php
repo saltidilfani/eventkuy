@@ -257,6 +257,27 @@
                 padding-right: 0.7rem;
             }
         }
+        footer .social-links a.social-fb:hover {
+            background: linear-gradient(45deg, #1877f3 0%, #3b5998 100%);
+            color: #fff !important;
+        }
+        footer .social-links a.social-tw:hover {
+            background: linear-gradient(45deg, #1da1f2 0%, #0e71c8 100%);
+            color: #fff !important;
+        }
+        footer .social-links a.social-ig:hover {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #fff !important;
+        }
+        footer .social-links a.social-yt:hover {
+            background: linear-gradient(45deg, #ff0000 0%, #c4302b 100%);
+            color: #fff !important;
+        }
+        footer .social-links a i {
+            font-size: 1.35rem;
+            vertical-align: middle;
+            transition: color 0.2s;
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -407,17 +428,17 @@
                 <div class="col-lg-3 col-md-6">
                     <h6 class="text-white fw-bold mb-3">Social Media</h6>
                     <div class="social-links">
-                        <a href="#" class="text-light text-decoration-none" title="Facebook">
-                            <i class="fab fa-facebook"></i>
+                        <a href="https://facebook.com/eventkuy" class="text-light text-decoration-none social-fb" title="Facebook" target="_blank" rel="noopener">
+                            <i class="fab fa-facebook-f fa-lg"></i>
                         </a>
-                        <a href="#" class="text-light text-decoration-none" title="Twitter">
-                            <i class="fab fa-twitter"></i>
+                        <a href="https://twitter.com/eventkuy" class="text-light text-decoration-none social-tw" title="Twitter" target="_blank" rel="noopener">
+                            <i class="fab fa-twitter fa-lg"></i>
                         </a>
-                        <a href="#" class="text-light text-decoration-none" title="Instagram">
-                            <i class="fab fa-instagram"></i>
+                        <a href="https://instagram.com/eventkuy" class="text-light text-decoration-none social-ig" title="Instagram" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram fa-lg"></i>
                         </a>
-                        <a href="#" class="text-light text-decoration-none" title="YouTube">
-                            <i class="fab fa-youtube"></i>
+                        <a href="https://youtube.com/@eventkuy" class="text-light text-decoration-none social-yt" title="YouTube" target="_blank" rel="noopener">
+                            <i class="fab fa-youtube fa-lg"></i>
                         </a>
                     </div>
                 </div>

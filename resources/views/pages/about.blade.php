@@ -102,7 +102,7 @@
                     <p class="mb-3 text-secondary">EventKuy terbuka untuk kolaborasi dengan seluruh organisasi, komunitas, dan individu di <span class="fw-semibold">Politeknik Negeri Padang</span>. Ingin mengadakan event, menjadi relawan, atau punya ide pengembangan? <span class="text-oren">Hubungi kami</span> dan jadilah bagian dari perubahan positif di kampus kita!</p>
                 </div>
                 <div class="flex-shrink-0 mt-3 mt-md-0 ms-md-4">
-                    <a href="mailto:info@eventkuy.com" class="btn btn-oren shadow-sm px-4 py-2 fw-semibold" style="background:#FF6B08;color:#fff;border-radius:2rem; font-size:1.1rem;">Hubungi Kami</a>
+                    <a href="{{ route('contact.show') }}" class="btn btn-oren shadow-sm px-4 py-2 fw-semibold" style="background:#FF6B08;color:#fff;border-radius:2rem; font-size:1.1rem;">Hubungi Kami</a>
                 </div>
             </div>
         </div>
